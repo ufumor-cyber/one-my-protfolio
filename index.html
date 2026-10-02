@@ -1,0 +1,2791 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UF — Ideas Portfolio & Archive</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ember: '#FF6B35',
+            amberglow: '#FFB627',
+            coral: '#FF7E79',
+            cream: '#FFF8F0',
+            cream2: '#FFF1E4',
+            cocoa: '#3D2B23',
+            caramel: '#C67C4E',
+            blush: '#FFDAD1'
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'serif'],
+            sans: ['Outfit', 'sans-serif'],
+            hand: ['Caveat', 'cursive']
+          },
+          boxShadow: {
+            warm: '0 20px 60px -15px rgba(255,107,53,.25)',
+            card: '0 10px 40px -12px rgba(61,43,35,.15)',
+            glow: '0 0 0 4px rgba(255,182,39,.25)'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    :root {
+      --c1: #FF6B35;
+      --c2: #FFB627;
+      --c3: #FF7E79;
+      --c4: #FFC9B5;
+      --bg: #FFF8F0;
+      --bg2: #FFF1E4;
+      --ink: #3D2B23;
+      --muted: #8A6F62;
+      --card: #FFFFFF;
+      --line: #FFE4D1;
+      --radius: 24px;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      transition: background .5s cubic-bezier(.16,1,.3,1), color .5s;
+    }
+
+    body.dusk {
+      --bg: #221410;
+      --bg2: #351E15;
+      --ink: #FFF1E4;
+      --muted: #D8B4A0;
+      --card: #2E1D14;
+      --line: #4A2E20;
+    }
+
+    .font-serif { font-family: 'Fraunces', serif !important; }
+    .font-hand { font-family: 'Caveat', cursive !important; }
+    
+    ::selection { background: var(--c1); color: white; }
+    
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--c1), var(--c3));
+      border-radius: 99px;
+      border: 2px solid var(--bg2);
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(85px);
+      pointer-events: none;
+      transition: all .6s ease;
+    }
+
+    .glass {
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .warm-border { border: 1px solid var(--line); }
+
+    .btn-warm {
+      background: linear-gradient(135deg, var(--c1), var(--c3) 60%, #FF9A62);
+      color: #fff;
+      box-shadow: 0 12px 30px -8px rgba(255,107,53,.5), inset 0 1px 0 rgba(255,255,255,.4);
+      transition: all .3s cubic-bezier(.16,1,.3,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-warm:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 18px 40px -8px rgba(255,107,53,.6);
+    }
+    .btn-warm::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-20deg);
+      transition: .6s;
+    }
+    .btn-warm:hover::after { left: 150%; }
+
+    .btn-ghost {
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      transition: all .3s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--c1);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -10px rgba(255,107,53,.3);
+    }
+
+    .grad-text {
+      background: linear-gradient(100deg, var(--c1) 5%, var(--c2) 50%, var(--c3) 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .card-idea {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform .4s cubic-bezier(.2,.9,.3,1.2), box-shadow .4s, border-color .3s;
+    }
+    .card-idea:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -18px rgba(255,107,53,.32);
+      border-color: #FFD0B5;
+    }
+    .card-idea .img-wrap img {
+      transition: transform .8s cubic-bezier(.2,.8,.2,1);
+    }
+    .card-idea:hover .img-wrap img {
+      transform: scale(1.08) rotate(.5deg);
+    }
+
+    .pill {
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      border-radius: 999px;
+      padding: .45rem 1.15rem;
+      font-size: .84rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all .25s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .pill:hover {
+      border-color: var(--c1);
+      transform: translateY(-2px);
+    }
+    .pill.active {
+      background: linear-gradient(135deg, var(--c1), var(--c3));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px -6px rgba(255,107,53,.5);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    .float-a { animation: floatA 5s ease-in-out infinite; }
+    .float-b { animation: floatA 6.5s ease-in-out infinite reverse; }
+    .float-c { animation: floatA 7.5s ease-in-out infinite 1s; }
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+      50% { transform: translateY(-14px) rotate(var(--r, 0deg)); }
+    }
+
+    .spin-slow { animation: spin 20s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.revealed { opacity: 1; transform: none; }
+
+    .input-warm {
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: .8rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: .25s;
+      color: var(--ink);
+      font-size: .92rem;
+    }
+    .input-warm:focus {
+      border-color: var(--c1);
+      box-shadow: 0 0 0 4px rgba(255,107,53,.15);
+    }
+
+    label.lbl {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .4rem;
+      display: block;
+    }
+
+    .toggle {
+      width: 44px; height: 24px;
+      background: #EAD9C9;
+      border-radius: 99px;
+      position: relative;
+      cursor: pointer;
+      transition: .3s;
+      flex-shrink: 0;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+      transition: .3s cubic-bezier(.2,.8,.2,1);
+    }
+    .toggle.on {
+      background: linear-gradient(135deg, var(--c1), var(--c3));
+    }
+    .toggle.on::after { left: 23px; }
+
+    #cursorGlow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle, rgba(255,150,80,.16) 0%, transparent 65%);
+      transform: translate(-50%, -50%);
+      transition: opacity .4s;
+    }
+
+    .modal-bg {
+      background: rgba(43,25,16,.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .heart-pop {
+      position: absolute;
+      pointer-events: none;
+      animation: heartUp 1.1s cubic-bezier(.1,.8,.2,1) forwards;
+      font-size: 20px;
+      z-index: 100;
+    }
+    @keyframes heartUp {
+      0% { transform: translateY(0) scale(.5); opacity: 1; }
+      100% { transform: translateY(-75px) scale(1.4) rotate(15deg); opacity: 0; }
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 19px;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      background: linear-gradient(var(--c2), var(--c1), var(--c3));
+      border-radius: 99px;
+      opacity: .4;
+    }
+
+    .masonry {
+      columns: 1;
+      column-gap: 1.25rem;
+    }
+    @media (min-width: 768px) { .masonry { columns: 2; } }
+    @media (min-width: 1100px) { .masonry { columns: 3; } }
+    .masonry > * {
+      break-inside: avoid;
+      margin-bottom: 1.25rem;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      width: 100%;
+      text-align: left;
+      padding: .85rem 1rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--muted);
+      transition: .25s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: linear-gradient(135deg, rgba(255,107,53,.12), rgba(255,126,121,.12));
+      color: var(--ink);
+    }
+    .tab-btn.active {
+      border: 1px solid var(--line);
+      box-shadow: 0 6px 18px -8px rgba(255,107,53,.3);
+    }
+
+    .preset-dot {
+      width: 100%;
+      height: 55px;
+      border-radius: 16px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: .25s;
+    }
+    .preset-dot:hover { transform: translateY(-2px); }
+    .preset-dot.active {
+      border-color: var(--ink);
+      transform: scale(1.03);
+    }
+
+    .swirl-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .swirl-underline svg {
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 14px;
+    }
+
+    .toastIn { animation: toastIn .4s cubic-bezier(.2,.9,.3,1.2); }
+    @keyframes toastIn {
+      from { transform: translateY(20px) scale(.95); opacity: 0; }
+    }
+
+    .pass-box {
+      width: 52px;
+      height: 62px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      border-radius: 16px;
+      border: 2px solid var(--line);
+      background: var(--card);
+      outline: none;
+      transition: .2s;
+      color: var(--ink);
+    }
+    .pass-box:focus {
+      border-color: var(--c1);
+      box-shadow: 0 0 0 4px rgba(255,107,53,.18);
+    }
+
+    .chip {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .35rem .75rem;
+      border-radius: 99px;
+    }
+
+    @media (max-width: 640px) {
+      #cursorGlow { display: none; }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#FF6B35] selection:text-white">
+
+  <div class="grain"></div>
+  <div id="cursorGlow"></div>
+  <canvas id="embers" class="fixed inset-0 pointer-events-none z-[2]"></canvas>
+
+  <!-- NAVIGATION -->
+  <nav id="nav" class="fixed top-3 left-3 right-3 md:top-5 md:left-6 md:right-6 z-[40] transition-all">
+    <div class="glass warm-border rounded-[22px] px-4 md:px-6 py-3 flex items-center justify-between shadow-card max-w-7xl mx-auto">
+      
+      <!-- Logo & Triple-Click Studio Trigger -->
+      <div id="logoTrigger" class="flex items-center gap-3 cursor-pointer select-none group" title="Triple-click for hidden UF Studio">
+        <div class="w-10 h-10 rounded-2xl grid place-items-center text-white text-base font-black shadow-warm tracking-tighter group-hover:scale-105 transition-transform" style="background:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3))">
+          UF
+        </div>
+        <div class="leading-tight">
+          <div id="navName" class="font-serif font-black text-[1.15rem] tracking-tight">UF</div>
+          <div class="text-[10px] font-bold tracking-[.22em] uppercase opacity-60">Ideas Portfolio & Archive</div>
+        </div>
+      </div>
+
+      <!-- Nav Links -->
+      <div class="hidden lg:flex items-center gap-7 text-[.92rem] font-semibold opacity-80">
+        <a href="#ideas" class="hover:text-[#FF6B35] transition">Archive</a>
+        <a href="#spotlight" class="hover:text-[#FF6B35] transition">Spotlight</a>
+        <a href="#journey" class="hover:text-[#FF6B35] transition">Journey</a>
+        <a href="#about" class="hover:text-[#FF6B35] transition">About</a>
+        <a href="#notes" class="hover:text-[#FF6B35] transition">Love Notes</a>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-2 md:gap-3">
+        <button onclick="toggleDusk()" class="w-10 h-10 rounded-full btn-ghost grid place-items-center text-sm" title="Toggle cozy dusk/dawn mode" aria-label="Toggle theme">
+          <i id="duskIcon" class="fa-solid fa-moon"></i>
+        </button>
+        <button onclick="randomIdea()" class="hidden sm:flex btn-ghost rounded-full px-4 py-2 text-sm font-bold items-center gap-2">
+          <i class="fa-solid fa-dice text-[#FF6B35]"></i>
+          Surprise me
+        </button>
+        <a id="navCta" href="#contact" class="btn-warm rounded-full px-5 py-2.5 text-sm font-bold flex items-center gap-1.5">
+          <span>Say Hello</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Studio Top Banner (When logged in) -->
+    <div id="adminBanner" class="hidden max-w-7xl mx-auto mt-2 rounded-2xl px-4 py-2 text-[13px] font-bold flex items-center justify-between text-white shadow-lg backdrop-blur" style="background:linear-gradient(90deg,#3D2B23,#7A3B1E)">
+      <span><i class="fa-solid fa-wand-magic-sparkles mr-2 text-amber-300"></i>UF STUDIO ACTIVE — Live editor ready. Changes save to local archive.</span>
+      <span class="flex gap-2">
+        <button onclick="openAdmin()" class="bg-white/20 hover:bg-white/30 rounded-full px-3.5 py-1 transition">Open Customizer</button>
+        <button onclick="lockStudio()" class="bg-white/20 hover:bg-white/30 rounded-full px-3 py-1 transition">Lock</button>
+      </span>
+    </div>
+  </nav>
+
+  <main class="relative z-[10]">
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-32 md:pt-44 pb-14 px-5 md:px-8 overflow-hidden">
+      <div class="blob w-[520px] h-[520px] -top-20 -left-32" id="blob1" style="background:radial-gradient(circle,#FFD6A5,transparent 70%);opacity:.9"></div>
+      <div class="blob w-[620px] h-[620px] top-10 -right-40" id="blob2" style="background:radial-gradient(circle,#FFB4A2,#FFD6E0 60%,transparent 72%);opacity:.85"></div>
+      <div class="blob w-[380px] h-[380px] bottom-0 left-1/3" id="blob3" style="background:radial-gradient(circle,#FFE29A,transparent 70%);opacity:.7"></div>
+
+      <div class="max-w-7xl mx-auto grid lg:grid-cols-[1.08fr_.92fr] gap-12 items-center relative">
+        <div>
+          <!-- Eyebrow -->
+          <div class="hero-el inline-flex items-center gap-2 glass warm-border rounded-full pl-2 pr-4 py-1.5 text-[13px] font-bold shadow-card mb-6">
+            <span class="w-7 h-7 rounded-full grid place-items-center text-white text-xs" style="background:linear-gradient(135deg,var(--c1),var(--c2))">
+              <i class="fa-solid fa-mug-hot"></i>
+            </span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="heroEyebrow">UF Living Ideas Archive • Curated Sparks</span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="hero-el font-serif font-black leading-[.95] tracking-tight text-[3.2rem] sm:text-[4.4rem] xl:text-[5.4rem]">
+            <span id="heroTitleA">Past ideas,</span><br>
+            <span class="grad-text italic" id="heroTitleB">warmly kept.</span>
+            <span class="swirl-underline">
+              <svg viewBox="0 0 200 14" preserveAspectRatio="none">
+                <path d="M2 10 Q 50 2 100 8 T 198 6" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="g" x1="0" x2="1">
+                    <stop offset="0" stop-color="#FF6B35"/>
+                    <stop offset=".5" stop-color="#FFB627"/>
+                    <stop offset="1" stop-color="#FF7E79"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+          </h1>
+
+          <!-- Hero Subtitle -->
+          <p id="heroSubtitle" class="hero-el mt-6 text-[1.05rem] md:text-lg leading-relaxed opacity-75 max-w-xl">
+            Welcome to UF — a cozy sanctuary for prototypes, napkin sketches, digital side-quests, and creative sparks. Wander the shelf, steal inspiration, or leave a little warmth.
+          </p>
+
+          <!-- CTAs -->
+          <div class="hero-el flex flex-wrap gap-3.5 mt-8">
+            <a href="#ideas" class="btn-warm rounded-full px-7 py-3.5 font-bold flex items-center gap-2" id="heroCta1">
+              Explore 9 ideas <i class="fa-solid fa-arrow-down text-xs"></i>
+            </a>
+            <a href="#about" class="btn-ghost rounded-full px-7 py-3.5 font-bold flex items-center gap-2" id="heroCta2">
+              <i class="fa-solid fa-book-open text-[#FF6B35]"></i> Read the story
+            </a>
+          </div>
+
+          <!-- Social Proof / Warm Badge -->
+          <div class="hero-el flex items-center gap-5 mt-9">
+            <div class="flex -space-x-3">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=120&auto=format&fit=crop" class="w-10 h-10 rounded-full border-[3px] object-cover" style="border-color:var(--bg)" alt="fellow creator">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop" class="w-10 h-10 rounded-full border-[3px] object-cover" style="border-color:var(--bg)" alt="fellow creator">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=120&auto=format&fit=crop" class="w-10 h-10 rounded-full border-[3px] object-cover" style="border-color:var(--bg)" alt="fellow creator">
+              <div class="w-10 h-10 rounded-full border-[3px] grid place-items-center text-white text-xs font-black" style="border-color:var(--bg);background:linear-gradient(135deg,var(--c1),var(--c3))">
+                UF+
+              </div>
+            </div>
+            <div class="text-sm leading-tight">
+              <div class="font-black" id="heroSocialProof">Treasured by 9,400+ curious souls</div>
+              <div class="opacity-60 font-medium">★★★★★ 4.9 avg. warmth rating</div>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="hero-el grid grid-cols-3 gap-3 mt-8 max-w-md">
+            <div class="glass warm-border rounded-2xl p-4 text-center">
+              <div class="font-serif font-black text-2xl grad-text"><span class="counter" id="statIdeas">9</span></div>
+              <div class="text-[11px] font-bold tracking-widest uppercase opacity-60 mt-1">Ideas Kept</div>
+            </div>
+            <div class="glass warm-border rounded-2xl p-4 text-center">
+              <div class="font-serif font-black text-2xl grad-text"><span class="counter" id="statLikes">0</span></div>
+              <div class="text-[11px] font-bold tracking-widest uppercase opacity-60 mt-1">Warm Likes</div>
+            </div>
+            <div class="glass warm-border rounded-2xl p-4 text-center">
+              <div class="font-serif font-black text-2xl grad-text"><span class="counter" id="statYears">7</span>y</div>
+              <div class="text-[11px] font-bold tracking-widest uppercase opacity-60 mt-1">Archive Age</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Floating Composition -->
+        <div class="relative hero-el hidden md:block" id="heroCollage">
+          <div class="absolute inset-0 grid place-items-center pointer-events-none">
+            <div class="w-[440px] h-[440px] rounded-full spin-slow opacity-40" style="border:2px dashed var(--c2)"></div>
+          </div>
+
+          <div class="relative mx-auto w-[360px] xl:w-[410px]">
+            <!-- Main Hero Card -->
+            <div class="card-idea shadow-warm rotate-[-2deg]" style="--r:-2deg">
+              <div class="img-wrap h-[300px] xl:h-[340px] overflow-hidden relative cursor-pointer" onclick="openIdea('ember-notes')">
+                <img id="collageMain" src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="featured idea">
+                <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(45,20,8,.7),transparent 55%)"></div>
+                <div class="absolute top-3 left-3 chip bg-white/95 text-[#7A3B1E]">
+                  <i class="fa-solid fa-star mr-1 text-amber-500"></i> Featured keepsake
+                </div>
+                <div class="absolute bottom-3 left-4 right-4 text-white">
+                  <div class="font-serif font-black text-2xl leading-tight">Ember Notes</div>
+                  <div class="text-[13px] opacity-90 mt-1">A journaling sanctuary that feels like hot tea on a rainy morning</div>
+                </div>
+              </div>
+              <div class="p-4 flex items-center justify-between">
+                <div class="flex gap-2">
+                  <span class="chip" style="background:#FFF1E4;color:#B45309">Productivity</span>
+                  <span class="chip" style="background:#DCFCE7;color:#15803D">Launched</span>
+                </div>
+                <button onclick="openIdea('ember-notes')" class="w-10 h-10 rounded-full btn-warm grid place-items-center" aria-label="Open idea">
+                  <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Floating Pill Left -->
+            <div class="absolute -left-16 top-6 glass warm-border rounded-2xl p-3.5 shadow-card float-a w-[175px]" style="--r:-6deg">
+              <div class="text-[11px] font-black tracking-widest uppercase opacity-60">UF Studio</div>
+              <div class="font-serif font-bold text-[14px] leading-tight mt-1">Solstice Theme ☕</div>
+              <div class="text-[11px] font-bold mt-1 text-[#FF6B35]">Warm theme active</div>
+            </div>
+
+            <!-- Floating Pill Right -->
+            <div class="absolute -right-12 top-32 glass warm-border rounded-2xl p-3.5 shadow-card float-b w-[150px]" style="--r:5deg">
+              <div class="w-9 h-9 rounded-xl grid place-items-center text-white mb-2" style="background:linear-gradient(135deg,#FF7E79,#FFB627)">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <div class="font-black text-lg leading-none" id="floatLikes">18.4k</div>
+              <div class="text-[11px] font-bold opacity-60">sparks ignited</div>
+            </div>
+
+            <!-- Floating Hint Bottom -->
+            <div class="absolute -left-10 -bottom-8 glass warm-border rounded-2xl px-4 py-3 shadow-card float-c flex items-center gap-3 cursor-pointer" onclick="handleSecretClick()" style="--r:2deg">
+              <div class="w-10 h-10 rounded-full grid place-items-center text-white font-black text-xs" style="background:linear-gradient(135deg,var(--c1),var(--c2))">UF</div>
+              <div>
+                <div class="font-hand text-xl leading-none">triple-click logo 🔥</div>
+                <div class="text-[11px] font-bold opacity-60">to unlock hidden studio</div>
+              </div>
+            </div>
+
+            <!-- Rotating Badge -->
+            <div class="absolute -right-6 -top-8 w-24 h-24">
+              <svg viewBox="0 0 100 100" class="spin-slow w-full h-full">
+                <defs>
+                  <path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/>
+                </defs>
+                <text font-size="11" font-weight="800" letter-spacing="2.8" fill="var(--ink)">
+                  <textPath href="#circ">UF ARCHIVE • WARM IDEAS • LIVING STUDIO •</textPath>
+                </text>
+              </svg>
+              <div class="absolute inset-0 grid place-items-center">
+                <div class="w-10 h-10 rounded-full btn-warm grid place-items-center shadow-lg">
+                  <i class="fa-solid fa-sparkles text-sm"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MARQUEE RIBBON -->
+    <section id="marqueeSec" class="py-3 -rotate-1 my-6">
+      <div class="py-3.5 overflow-hidden text-white font-black tracking-[.2em] text-[13px] uppercase shadow-warm" style="background:linear-gradient(90deg,var(--c1),#FF8A3D,var(--c3),var(--c1));background-size:200% 100%;animation:gradShift 8s linear infinite">
+        <div class="marquee-track" id="marqueeTrack"></div>
+      </div>
+      <style>
+        @keyframes gradShift { to { background-position: 200% 0; } }
+      </style>
+    </section>
+
+    <!-- MAIN IDEAS ARCHIVE -->
+    <section id="ideas" class="max-w-7xl mx-auto px-5 md:px-8 pt-10 pb-6">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-4 mb-7">
+        <div>
+          <div class="font-hand text-2xl text-[#FF6B35]">the keepsake shelf</div>
+          <h2 class="font-serif font-black text-4xl md:text-5xl tracking-tight">UF's past <span class="grad-text italic">ideas archive</span></h2>
+          <p class="opacity-60 mt-2 max-w-xl">Every prototype, daydream, software experiment & late-night sketch — preserved with warmth. Filter, read backstories, or leave your mark.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- View switcher -->
+          <div class="glass warm-border rounded-full flex p-1 gap-1 text-sm">
+            <button data-view="grid" class="viewBtn px-4 py-2 rounded-full font-bold bg-[#3D2B23] text-white transition">
+              <i class="fa-solid fa-table-cells-large mr-1"></i> Grid
+            </button>
+            <button data-view="timeline" class="viewBtn px-4 py-2 rounded-full font-bold opacity-60 transition">
+              <i class="fa-solid fa-timeline mr-1"></i> Tale
+            </button>
+            <button data-view="mood" class="viewBtn px-4 py-2 rounded-full font-bold opacity-60 transition">
+              <i class="fa-solid fa-layer-group mr-1"></i> Mood
+            </button>
+          </div>
+
+          <!-- Shuffle spark -->
+          <button onclick="randomIdea()" class="btn-warm rounded-full w-11 h-11 grid place-items-center shadow" title="Random spark">
+            <i class="fa-solid fa-shuffle"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls bar: Search, Category pills, Sort -->
+      <div class="reveal glass warm-border rounded-[22px] p-3 md:p-4 flex flex-col xl:flex-row gap-3 xl:items-center sticky top-[80px] z-[30] shadow-card">
+        <div class="relative flex-1 min-w-[220px]">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 opacity-40 text-sm"></i>
+          <input id="searchInput" oninput="renderIdeas()" class="input-warm !pl-11 !rounded-full" placeholder="Search ideas, categories, tags… try 'wellness', 'game', 'cozy'…" />
+        </div>
+
+        <div id="pillRow" class="flex gap-2 overflow-x-auto no-scrollbar py-1"></div>
+
+        <div class="flex gap-2">
+          <select id="sortSel" onchange="renderIdeas()" class="input-warm !rounded-full !w-auto font-bold text-sm cursor-pointer">
+            <option value="new">Newest first</option>
+            <option value="old">Oldest first</option>
+            <option value="loved">Most loved</option>
+            <option value="az">A → Z</option>
+          </select>
+          <select id="statusSel" onchange="renderIdeas()" class="input-warm !rounded-full !w-auto font-bold text-sm cursor-pointer">
+            <option value="all">All status</option>
+            <option value="Launched">Launched</option>
+            <option value="Prototype">Prototype</option>
+            <option value="Concept">Concept</option>
+            <option value="Archived">Archived</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results info count -->
+      <div class="flex items-center justify-between mt-5 mb-4 text-sm font-bold opacity-70">
+        <span id="resultCount">9 treasures found</span>
+        <span class="hidden sm:block font-hand text-xl opacity-80">crafted with patience & cardamom →</span>
+      </div>
+
+      <!-- Views Container -->
+      <div id="ideasGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <div id="ideasTimeline" class="hidden relative pl-12 max-w-3xl mx-auto"></div>
+      <div id="ideasMood" class="hidden masonry"></div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-20 glass warm-border rounded-[28px] mt-2">
+        <div class="w-16 h-16 mx-auto rounded-2xl grid place-items-center text-2xl text-white mb-4" style="background:linear-gradient(135deg,var(--c2),var(--c3))">
+          <i class="fa-solid fa-mug-saucer"></i>
+        </div>
+        <div class="font-serif font-black text-2xl">No sparks found…</div>
+        <p class="opacity-60 mt-1">Try another filter keyword, or unlock UF Studio to bake a new idea.</p>
+        <button onclick="clearFilters()" class="btn-warm rounded-full px-6 py-2.5 font-bold mt-4 text-sm">Clear filters</button>
+      </div>
+    </section>
+
+    <!-- SPOTLIGHT SHOWCASE -->
+    <section id="spotlight" class="max-w-7xl mx-auto px-5 md:px-8 py-12">
+      <div class="reveal rounded-[32px] overflow-hidden warm-border shadow-warm relative" style="background:linear-gradient(135deg,#2B1A10 0%,#6B3013 45%,#C2512B 75%,#FF7E79 100%)">
+        <div class="blob w-[400px] h-[400px] -top-20 -right-20" style="background:radial-gradient(circle,#FFB627,transparent 70%);opacity:.5"></div>
+        <div class="grid lg:grid-cols-2 relative">
+          <div class="relative h-72 lg:h-auto min-h-[340px]">
+            <img id="spotImg" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=900&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="spotlight">
+            <div class="absolute inset-0" style="background:linear-gradient(90deg,transparent 40%,rgba(43,20,8,.45))"></div>
+            <div class="absolute top-5 left-5 chip bg-white/95 text-[#7A3B1E]">
+              <i class="fa-solid fa-crown mr-1 text-amber-500"></i> Spotlight of the season
+            </div>
+          </div>
+          <div class="p-8 md:p-12 text-white flex flex-col justify-center">
+            <div class="font-hand text-2xl text-amber-200" id="spotKicker">baked with love in 2023</div>
+            <h3 class="font-serif font-black text-3xl md:text-5xl leading-tight mt-1" id="spotTitle">Sunbaked</h3>
+            <p class="text-white/85 mt-4 leading-relaxed" id="spotDesc">
+              A recipe-storytelling platform where every dish comes with the memory attached — grandma's voice notes, stained recipe cards, and kitchen playlists.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5" id="spotTags"></div>
+            <div class="flex flex-wrap items-center gap-4 mt-8">
+              <button id="spotBtn" class="bg-white text-[#5A2410] rounded-full px-7 py-3.5 font-black hover:scale-105 transition shadow-xl flex items-center gap-2">
+                <span>Open the story</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+              <div class="flex items-center gap-4 text-sm font-bold">
+                <span><i class="fa-solid fa-heart mr-1.5 text-rose-300"></i><span id="spotLikes">0</span></span>
+                <span><i class="fa-solid fa-eye mr-1.5 text-amber-200"></i><span id="spotViews">0</span> reads</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE UF JOURNEY -->
+    <section id="journey" class="max-w-5xl mx-auto px-5 md:px-8 py-10">
+      <div class="reveal text-center mb-10">
+        <div class="font-hand text-2xl text-[#FF6B35]">how the sparks unfolded</div>
+        <h2 class="font-serif font-black text-4xl md:text-5xl">The cozy <span class="grad-text italic">journey</span></h2>
+      </div>
+      <div class="relative pl-10 md:pl-0" id="journeyWrap">
+        <div class="timeline-line !left-[19px] md:!left-1/2 md:-translate-x-1/2"></div>
+        <div class="space-y-6" id="journeyList"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION (Pantry of skills & skill percentages completely deleted) -->
+    <section id="about" class="max-w-6xl mx-auto px-5 md:px-8 py-12">
+      <div class="reveal rounded-[32px] overflow-hidden warm-border shadow-card p-8 md:p-12 relative" style="background:var(--card)">
+        <div class="blob w-80 h-80 -top-20 -right-20" style="background:radial-gradient(circle,#FFDAD1,transparent 70%);opacity:.8"></div>
+
+        <div class="grid lg:grid-cols-[320px_1fr] gap-10 items-center relative">
+          <div class="relative mx-auto w-full max-w-[280px]">
+            <div class="rounded-[28px] overflow-hidden warm-border shadow-warm aspect-[4/5] relative">
+              <img id="aboutImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="UF Creator">
+              <div class="absolute top-3 left-3 chip text-white" style="background:linear-gradient(135deg,var(--c1),var(--c3))">
+                <i class="fa-solid fa-location-dot mr-1"></i><span id="aboutLoc">Studio • 45°F & Drizzly</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="font-hand text-2xl text-[#FF6B35]" id="aboutKicker">hello friend</div>
+            <h3 class="font-serif font-black text-3xl md:text-4xl mt-1" id="aboutName">About UF</h3>
+            <p class="font-bold text-sm text-[#FF6B35] mt-1" id="aboutRole">Ideas Archive & Creative Sanctuary</p>
+            
+            <p class="opacity-80 mt-4 leading-relaxed text-[1.02rem]" id="aboutBio">
+              UF is a curated archive of digital experiments, humane tools, and tactile concepts created over the years. I believe technology feels best when it is built like a warm, sunlit kitchen — forgiving, thoughtful, and scented with quiet joy. Here you will find concepts ranging from cozy journaling apps to sustainable marketplaces and atmospheric indie games.
+            </p>
+
+            <div class="grid sm:grid-cols-2 gap-4 mt-6 pt-6" style="border-top:1px dashed var(--line)">
+              <div class="glass p-4 rounded-2xl warm-border">
+                <div class="font-serif font-bold text-lg mb-1 flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-xl text-white text-xs grid place-items-center" style="background:linear-gradient(135deg,var(--c1),var(--c2))">
+                    <i class="fa-solid fa-sparkles"></i>
+                  </span>
+                  Warmth First
+                </div>
+                <p class="text-xs opacity-70 leading-relaxed">Software that respects human attention, forgives broken streaks, and brings calm into daily rituals.</p>
+              </div>
+              <div class="glass p-4 rounded-2xl warm-border">
+                <div class="font-serif font-bold text-lg mb-1 flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-xl text-white text-xs grid place-items-center" style="background:linear-gradient(135deg,var(--c2),var(--c3))">
+                    <i class="fa-solid fa-seedling"></i>
+                  </span>
+                  Story-Driven
+                </div>
+                <p class="text-xs opacity-70 leading-relaxed">Every prototype starts as a story, memory, or hand-bound sketch before ever becoming code.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 mt-6">
+              <a href="#contact" class="btn-warm rounded-full px-6 py-3 font-bold text-sm flex items-center gap-2">
+                <span>Get in touch</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+              <div class="flex gap-2" id="socialRow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVE NOTES -->
+    <section id="notes" class="max-w-6xl mx-auto px-5 md:px-8 py-12">
+      <div class="reveal text-center mb-8">
+        <div class="font-hand text-2xl text-[#FF6B35]">sweet words from friends</div>
+        <h2 class="font-serif font-black text-4xl md:text-5xl">Love <span class="grad-text italic">notes</span></h2>
+      </div>
+
+      <div class="reveal relative rounded-[28px] warm-border p-6 md:p-10 overflow-hidden" style="background:var(--card)">
+        <div class="blob w-72 h-72 -top-10 -right-10" style="background:radial-gradient(circle,#FFDAD1,transparent 70%);opacity:.8"></div>
+        <div id="quoteBox" class="relative min-h-[170px] grid place-items-center text-center transition-opacity duration-300">
+          <div>
+            <div class="text-amber-500 tracking-[.3em] text-sm mb-3">★★★★★</div>
+            <p id="quoteText" class="font-serif italic font-semibold text-xl md:text-2xl leading-relaxed max-w-2xl"></p>
+            <div id="quoteAuth" class="mt-4 font-bold text-sm opacity-70"></div>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-3 mt-6">
+          <button onclick="stepQuote(-1)" class="w-11 h-11 rounded-full btn-ghost grid place-items-center" aria-label="Previous note">
+            <i class="fa-solid fa-arrow-left text-sm"></i>
+          </button>
+          <div class="flex gap-2" id="quoteDots"></div>
+          <button onclick="stepQuote(1)" class="w-11 h-11 rounded-full btn-warm grid place-items-center" aria-label="Next note">
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="max-w-7xl mx-auto px-5 md:px-8 py-12 pb-8">
+      <div class="reveal rounded-[32px] p-8 md:p-14 relative overflow-hidden shadow-warm" style="background:linear-gradient(135deg,#FFF1E4,#FFDAD1 45%,#FFC9A8 70%,#FFB627 130%);border:1px solid #FFD9C2">
+        <div class="blob w-[420px] h-[420px] -bottom-40 -left-20" style="background:radial-gradient(circle,#FF7E79,transparent 70%);opacity:.4"></div>
+        
+        <div class="grid lg:grid-cols-2 gap-10 relative">
+          <div>
+            <div class="font-hand text-3xl text-[#B45309]">let's ignite something cozy</div>
+            <h2 class="font-serif font-black text-4xl md:text-6xl leading-[1.02] text-[#3D2B23]">
+              Have a spark?<br><span class="italic" style="color:#C2410C">Share it with UF.</span>
+            </h2>
+            <p class="text-[#7A5A48] mt-4 max-w-md font-medium">
+              Collaborations, inquiries, thoughts, or quiet hellos — our inbox is open. We read every word and reply with thoughtful care.
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-7">
+              <a id="emailBtn" href="mailto:hello@uf-archive.studio" class="rounded-full px-7 py-3.5 font-black text-white shadow-xl hover:scale-105 transition flex items-center" style="background:#3D2B23">
+                <i class="fa-solid fa-envelope mr-2 text-amber-300"></i><span id="emailLabel">hello@uf-archive.studio</span>
+              </a>
+              <button onclick="copyEmail()" class="rounded-full px-5 py-3.5 font-bold bg-white/70 border border-[#E8C9B0] hover:bg-white transition" title="Copy email address">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+            </div>
+
+            <div class="flex gap-2 mt-6" id="contactSocials"></div>
+          </div>
+
+          <form onsubmit="sendMsg(event)" class="bg-white/85 backdrop-blur rounded-[24px] p-6 md:p-8 border border-white shadow-card">
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label class="lbl !text-[#8A6F62]">Your name</label>
+                <input id="cName" required class="input-warm !bg-white" placeholder="Rowan Vance" />
+              </div>
+              <div>
+                <label class="lbl !text-[#8A6F62]">Email</label>
+                <input id="cEmail" required type="email" class="input-warm !bg-white" placeholder="you@warmth.mail" />
+              </div>
+            </div>
+            <div class="mt-3">
+              <label class="lbl !text-[#8A6F62]">What are we dreaming up?</label>
+              <select class="input-warm !bg-white font-medium">
+                <option>Collaboration on a new idea</option>
+                <option>Just saying hello & warm vibes</option>
+                <option>Licensing or adopting an archived concept</option>
+                <option>Tea & creative chat</option>
+              </select>
+            </div>
+            <div class="mt-3">
+              <label class="lbl !text-[#8A6F62]">Message</label>
+              <textarea id="cMsg" required rows="4" class="input-warm !bg-white resize-none" placeholder="Dear UF, I stumbled across your archive and had this warm little thought…"></textarea>
+            </div>
+            <button class="btn-warm w-full rounded-2xl py-4 font-black mt-4 flex items-center justify-center gap-2">
+              <span>Send with warmth</span>
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+            <div class="text-center text-[12px] font-bold opacity-50 mt-3">No spam, only strawberry jam. Promise.</div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="flex flex-col md:flex-row items-center justify-between gap-3 pt-8 pb-6 text-[13px] font-semibold opacity-60">
+        <div>
+          © 2026 <span id="footName">UF</span> • Crafted with cozy embers • <span class="font-hand text-base">stay warm</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="#ideas" class="hover:opacity-100 transition">Archive</a>
+          <a href="#about" class="hover:opacity-100 transition">About</a>
+          <a href="#contact" class="hover:opacity-100 transition">Contact</a>
+          <span id="secretDot" onclick="handleSecretClick()" title="Triple-click or click here for hidden studio" class="w-3 h-3 rounded-full inline-block cursor-pointer hover:scale-150 transition" style="background:var(--c1)"></span>
+        </div>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- IDEA DETAIL MODAL -->
+  <div id="ideaModal" class="hidden fixed inset-0 z-[70] modal-bg p-3 md:p-8 overflow-y-auto">
+    <div class="max-w-4xl mx-auto rounded-[28px] overflow-hidden shadow-2xl my-4" style="background:var(--card);border:1px solid var(--line)">
+      <div class="relative h-64 md:h-84">
+        <img id="mImg" src="" class="w-full h-full object-cover" alt="detail cover">
+        <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(40,18,6,.82),transparent 60%)"></div>
+        <button onclick="closeIdea()" class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/90 grid place-items-center text-[#3D2B23] hover:rotate-90 transition shadow" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="absolute top-4 left-4 flex gap-2">
+          <span id="mStatus" class="chip bg-white/95"></span>
+          <span id="mYear" class="chip bg-black/50 text-white backdrop-blur"></span>
+        </div>
+        <div class="absolute bottom-4 left-6 right-6 flex items-end justify-between gap-3">
+          <div>
+            <div id="mCat" class="text-amber-200 font-black text-[12px] tracking-[.2em] uppercase"></div>
+            <h3 id="mTitle" class="font-serif font-black text-white text-3xl md:text-4xl leading-tight"></h3>
+          </div>
+          <div class="flex gap-2">
+            <button id="mPrev" class="w-10 h-10 rounded-full bg-white/20 backdrop-blur text-white grid place-items-center hover:bg-white/40 transition"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+            <button id="mNext" class="w-10 h-10 rounded-full bg-white/20 backdrop-blur text-white grid place-items-center hover:bg-white/40 transition"><i class="fa-solid fa-arrow-right text-sm"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 md:p-9">
+        <div class="flex flex-wrap items-center gap-3 pb-5" style="border-bottom:1px dashed var(--line)">
+          <button id="mLikeBtn" class="flex items-center gap-2 rounded-full px-5 py-2.5 font-black text-sm text-white transition active:scale-95" style="background:linear-gradient(135deg,var(--c1),var(--c3))">
+            <i class="fa-solid fa-heart"></i><span id="mLikes">0</span>
+          </button>
+          <span class="text-sm font-bold opacity-60"><i class="fa-solid fa-eye mr-1"></i><span id="mViews">0</span> cozy reads</span>
+          <span class="flex-1"></span>
+          <button onclick="copyIdeaLink()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-link mr-1 text-[#FF6B35]"></i> Copy link</button>
+          <button onclick="shareIdea()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-share-nodes mr-1 text-[#FF6B35]"></i> Share</button>
+        </div>
+
+        <p id="mExcerpt" class="font-serif italic text-lg md:text-xl leading-relaxed mt-5 opacity-90"></p>
+        <p id="mDesc" class="mt-4 leading-relaxed opacity-75 whitespace-pre-line"></p>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+          <div class="rounded-2xl p-5" style="background:var(--bg2)">
+            <div class="lbl">Crafted with</div>
+            <div id="mStack" class="flex flex-wrap gap-2"></div>
+          </div>
+          <div class="rounded-2xl p-5" style="background:var(--bg2)">
+            <div class="lbl">Filed under</div>
+            <div id="mTags" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-5 mt-4 border-2 border-dashed" style="border-color:var(--c4);background:linear-gradient(135deg,rgba(255,182,39,.1),rgba(255,126,121,.1))">
+          <div class="lbl !text-[#B45309]"><i class="fa-solid fa-seedling mr-1"></i> What it taught me</div>
+          <p id="mLearn" class="font-medium text-[.95rem]"></p>
+        </div>
+
+        <!-- Comments -->
+        <div class="mt-8">
+          <h4 class="font-serif font-black text-xl mb-4">Warm words <span id="cCount" class="text-sm font-sans font-bold opacity-50"></span></h4>
+          <div id="commentList" class="space-y-3"></div>
+          <form onsubmit="addComment(event)" class="flex flex-col sm:flex-row gap-2 mt-4">
+            <input id="cmName" placeholder="Your name" class="input-warm sm:!w-44" />
+            <input id="cmText" required placeholder="Leave a little warmth…" class="input-warm flex-1" />
+            <button class="btn-warm rounded-2xl px-6 py-3 font-bold text-sm shrink-0">Post</button>
+          </form>
+        </div>
+
+        <div class="mt-8">
+          <div class="lbl">Keep wandering</div>
+          <div id="relatedRow" class="grid sm:grid-cols-2 gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSCODE MODAL -->
+  <div id="passModal" class="hidden fixed inset-0 z-[90] modal-bg grid place-items-center p-4">
+    <div class="rounded-[28px] p-8 max-w-sm w-full text-center shadow-2xl relative" style="background:var(--card);border:1px solid var(--line)">
+      <button onclick="closePass()" class="absolute top-4 right-4 w-9 h-9 rounded-full btn-ghost grid place-items-center text-sm">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="w-16 h-16 mx-auto rounded-2xl grid place-items-center text-white text-2xl shadow-warm" style="background:linear-gradient(135deg,var(--c1),var(--c3))">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <h3 class="font-serif font-black text-2xl mt-4">UF Studio Control</h3>
+      <p class="text-sm opacity-60 mt-1">Enter your 4-digit ember access code.<br><span class="font-bold text-[#FF6B35]">Demo code: <span id="passHint">1234</span></span></p>
+      
+      <div class="flex justify-center gap-2.5 mt-5" id="passBoxes">
+        <input maxlength="1" inputmode="numeric" class="pass-box" autofocus>
+        <input maxlength="1" inputmode="numeric" class="pass-box">
+        <input maxlength="1" inputmode="numeric" class="pass-box">
+        <input maxlength="1" inputmode="numeric" class="pass-box">
+      </div>
+      <div id="passErr" class="text-rose-500 text-sm font-bold mt-3 h-5"></div>
+      <button onclick="checkPass()" class="btn-warm w-full rounded-2xl py-3.5 font-black mt-2">Unlock the studio</button>
+    </div>
+  </div>
+
+  <!-- ADMIN FLOATING BUTTON -->
+  <button id="adminFab" onclick="openAdmin()" class="hidden fixed bottom-6 right-6 z-[60] w-14 h-14 rounded-full text-white text-xl shadow-2xl hover:scale-110 transition grid place-items-center" style="background:linear-gradient(135deg,#3D2B23,#8B4513)" title="Studio Control">
+    <i class="fa-solid fa-sliders"></i>
+    <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white animate-pulse"></span>
+  </button>
+
+  <!-- HIDDEN UF STUDIO CUSTOMIZER PANEL -->
+  <div id="adminPanel" class="hidden fixed inset-0 z-[80]">
+    <div class="absolute inset-0 modal-bg" onclick="closeAdmin()"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-[1020px] flex flex-col shadow-2xl" style="background:var(--bg);border-left:1px solid var(--line)">
+      
+      <!-- Studio Header -->
+      <div class="flex items-center justify-between px-5 md:px-7 py-4 warm-border" style="border-bottom:1px solid var(--line);background:var(--card)">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl grid place-items-center text-white shadow-warm" style="background:linear-gradient(135deg,var(--c1),var(--c3))">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div>
+            <div class="font-serif font-black text-lg leading-none">UF Studio Customizer</div>
+            <div class="text-[12px] font-bold opacity-50">live visual control • auto-saves immediately</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="previewSite()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold hidden sm:block">
+            <i class="fa-solid fa-eye mr-1"></i> Preview
+          </button>
+          <button onclick="lockStudio()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold">
+            <i class="fa-solid fa-lock mr-1"></i> Lock
+          </button>
+          <button onclick="closeAdmin()" class="w-10 h-10 rounded-full grid place-items-center text-white" style="background:#3D2B23">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Body -->
+      <div class="flex flex-1 overflow-hidden flex-col md:flex-row">
+        <!-- Sidebar Navigation -->
+        <div class="md:w-[210px] shrink-0 p-3 flex md:flex-col gap-1 overflow-x-auto no-scrollbar md:overflow-visible" style="background:var(--card);border-right:1px solid var(--line)">
+          <button class="tab-btn active" data-tab="dash">
+            <i class="fa-solid fa-chart-line w-5 text-center text-[#FF6B35]"></i> Overview
+          </button>
+          <button class="tab-btn" data-tab="ideas">
+            <i class="fa-solid fa-lightbulb w-5 text-center text-amber-500"></i> All Ideas 
+            <span id="admCount" class="ml-auto text-[11px] font-black px-2 py-0.5 rounded-full" style="background:var(--bg2)">9</span>
+          </button>
+          <button class="tab-btn" data-tab="look">
+            <i class="fa-solid fa-palette w-5 text-center text-rose-400"></i> Palette & Theme
+          </button>
+          <button class="tab-btn" data-tab="content">
+            <i class="fa-solid fa-pen-nib w-5 text-center text-[#C67C4E]"></i> Text Content
+          </button>
+          <button class="tab-btn" data-tab="settings">
+            <i class="fa-solid fa-gear w-5 text-center opacity-60"></i> Settings & Data
+          </button>
+          <div class="hidden md:block mt-auto rounded-2xl p-4 text-[12px] font-semibold leading-relaxed" style="background:var(--bg2)">
+            <i class="fa-solid fa-circle-info text-[#FF6B35] mr-1"></i> Every change here applies live to UF portfolio.
+          </div>
+        </div>
+
+        <!-- Panes -->
+        <div class="flex-1 overflow-y-auto p-5 md:p-7" id="adminBody">
+          
+          <!-- TAB: DASHBOARD OVERVIEW -->
+          <div data-pane="dash">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              <div class="rounded-2xl p-5 text-white" style="background:linear-gradient(135deg,#FF6B35,#FF8A3D)">
+                <div class="text-[11px] font-black tracking-widest uppercase opacity-90">Total Ideas</div>
+                <div class="font-serif font-black text-3xl" id="dIdeas">9</div>
+              </div>
+              <div class="rounded-2xl p-5 text-white" style="background:linear-gradient(135deg,#B45309,#FFB627)">
+                <div class="text-[11px] font-black tracking-widest uppercase opacity-90">Total Likes</div>
+                <div class="font-serif font-black text-3xl" id="dLikes">0</div>
+              </div>
+              <div class="rounded-2xl p-5 text-white" style="background:linear-gradient(135deg,#E11D48,#FF7E79)">
+                <div class="text-[11px] font-black tracking-widest uppercase opacity-90">Total Reads</div>
+                <div class="font-serif font-black text-3xl" id="dViews">0</div>
+              </div>
+              <div class="rounded-2xl p-5 text-white" style="background:linear-gradient(135deg,#5B3DF5,#B28DFF)">
+                <div class="text-[11px] font-black tracking-widest uppercase opacity-90">Comments</div>
+                <div class="font-serif font-black text-3xl" id="dComments">0</div>
+              </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="rounded-[22px] warm-border p-5 mt-4" style="background:var(--card)">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="font-serif font-black text-lg">Likes per Idea Spark</h4>
+                <button onclick="openEditor(null)" class="btn-warm rounded-full px-4 py-2 text-xs font-black">
+                  <i class="fa-solid fa-plus mr-1"></i> New Idea
+                </button>
+              </div>
+              <canvas id="dashChart" height="150" class="w-full"></canvas>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="rounded-[22px] warm-border p-5 mt-4" style="background:var(--card)">
+              <h4 class="font-serif font-black text-lg mb-3">Quick Studio Actions</h4>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openEditor(null)" class="btn-warm rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-plus mr-1"></i> Add New Idea</button>
+                <button onclick="exportData()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-download mr-1"></i> Export JSON</button>
+                <button onclick="document.getElementById('importFile').click()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Import JSON</button>
+                <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)">
+                <button onclick="seedDemo()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-rotate mr-1"></i> Restore Defaults</button>
+                <button onclick="randomIdea()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold"><i class="fa-solid fa-shuffle mr-1"></i> Random Showcase</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: IDEAS MANAGEMENT -->
+          <div data-pane="ideas" class="hidden">
+            <div class="flex flex-col sm:flex-row gap-2 sm:items-center mb-4">
+              <input id="admSearch" oninput="renderAdminIdeas()" class="input-warm flex-1" placeholder="Search archive items to edit...">
+              <button onclick="openEditor(null)" class="btn-warm rounded-2xl px-5 py-3 font-black text-sm shrink-0">
+                <i class="fa-solid fa-plus mr-1"></i> Add Idea
+              </button>
+            </div>
+            <div id="adminIdeaList" class="space-y-3"></div>
+          </div>
+
+          <!-- TAB: LOOK & PALETTE -->
+          <div data-pane="look" class="hidden">
+            <h4 class="font-serif font-black text-xl">Theme Palette & Mood</h4>
+            <p class="text-sm opacity-60 mb-4">Warm oranges, glowing ambers, soft corals and pinks. Live preview changes instantly.</p>
+
+            <div class="grid sm:grid-cols-4 gap-3 mb-5">
+              <div>
+                <label class="lbl">Ember (Primary)</label>
+                <input type="color" id="col1" onchange="updateColors()" class="w-full h-12 rounded-xl cursor-pointer bg-transparent">
+                <div class="text-xs font-bold mt-1 opacity-60" id="col1v"></div>
+              </div>
+              <div>
+                <label class="lbl">Amber Glow</label>
+                <input type="color" id="col2" onchange="updateColors()" class="w-full h-12 rounded-xl cursor-pointer bg-transparent">
+                <div class="text-xs font-bold mt-1 opacity-60" id="col2v"></div>
+              </div>
+              <div>
+                <label class="lbl">Coral Pink</label>
+                <input type="color" id="col3" onchange="updateColors()" class="w-full h-12 rounded-xl cursor-pointer bg-transparent">
+                <div class="text-xs font-bold mt-1 opacity-60" id="col3v"></div>
+              </div>
+              <div>
+                <label class="lbl">Cream BG</label>
+                <input type="color" id="colBg" onchange="updateColors()" class="w-full h-12 rounded-xl cursor-pointer bg-transparent">
+                <div class="text-xs font-bold mt-1 opacity-60" id="colBgv"></div>
+              </div>
+            </div>
+
+            <label class="lbl">Palette Presets</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6" id="presetRow">
+              <div class="preset-dot" data-p="0" onclick="applyPreset(0)" style="background:linear-gradient(135deg,#FF6B35,#FFB627,#FF7E79)" title="Sunset Ember"></div>
+              <div class="preset-dot" data-p="1" onclick="applyPreset(1)" style="background:linear-gradient(135deg,#F59E0B,#F97316,#EF4444)" title="Honey Spice"></div>
+              <div class="preset-dot" data-p="2" onclick="applyPreset(2)" style="background:linear-gradient(135deg,#FB7185,#FDA4AF,#FED7AA)" title="Rose Milk & Peach"></div>
+              <div class="preset-dot" data-p="3" onclick="applyPreset(3)" style="background:linear-gradient(135deg,#7C3AED,#EC4899,#FB923C)" title="Dusk Blossom"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="rounded-2xl warm-border p-5" style="background:var(--card)">
+                <label class="lbl">Corner Roundness — <span id="radiusV"></span></label>
+                <input id="radiusR" type="range" min="8" max="36" oninput="setRadius(this.value)" class="w-full accent-[#FF6B35]">
+                <label class="lbl mt-4">Card Style</label>
+                <div class="flex gap-2">
+                  <button onclick="setRadius(16)" class="pill text-xs">Sleek</button>
+                  <button onclick="setRadius(24)" class="pill text-xs">Cozy</button>
+                  <button onclick="setRadius(32)" class="pill text-xs">Puffy</button>
+                </div>
+              </div>
+
+              <div class="rounded-2xl warm-border p-5 space-y-3" style="background:var(--card)">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm">Film grain overlay</span>
+                  <div id="tGrain" onclick="toggleOption('grain')" class="toggle on"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm">Floating ambient blobs</span>
+                  <div id="tBlobs" onclick="toggleOption('blobs')" class="toggle on"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm">Dusk mode (warm dark)</span>
+                  <div id="tDusk" onclick="toggleDusk()" class="toggle"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm">Cursor ember glow</span>
+                  <div id="tGlow" onclick="toggleOption('glow')" class="toggle on"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-2xl warm-border p-5 mt-4" style="background:var(--card)">
+              <label class="lbl">Section Visibility</label>
+              <div id="secToggles" class="grid sm:grid-cols-2 gap-2"></div>
+            </div>
+          </div>
+
+          <!-- TAB: CONTENT CUSTOMIZATION -->
+          <div data-pane="content" class="hidden space-y-4">
+            <div class="rounded-[22px] warm-border p-5" style="background:var(--card)">
+              <h4 class="font-serif font-black text-lg mb-4">Branding & Bio</h4>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="lbl">Display Name / Title</label>
+                  <input id="fName" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Role / Sub-tagline</label>
+                  <input id="fRole" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Location Pill</label>
+                  <input id="fLoc" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Contact Email</label>
+                  <input id="fEmail" class="input-warm" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="lbl">Avatar Image URL</label>
+                  <input id="fAvatar" class="input-warm" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="lbl">About Narrative / Bio</label>
+                  <textarea id="fBio" rows="4" class="input-warm resize-none"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-[22px] warm-border p-5" style="background:var(--card)">
+              <h4 class="font-serif font-black text-lg mb-4">Hero Section</h4>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="lbl">Eyebrow Pill</label>
+                  <input id="hEyebrow" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Social Proof Label</label>
+                  <input id="hProof" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Title Line 1</label>
+                  <input id="hTA" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Title Line 2 (Gradient)</label>
+                  <input id="hTB" class="input-warm" />
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="lbl">Hero Subtitle</label>
+                  <textarea id="hSub" rows="2" class="input-warm resize-none"></textarea>
+                </div>
+                <div>
+                  <label class="lbl">Button 1 Text</label>
+                  <input id="hC1" class="input-warm" />
+                </div>
+                <div>
+                  <label class="lbl">Button 2 Text</label>
+                  <input id="hC2" class="input-warm" />
+                </div>
+              </div>
+              <button onclick="saveContentForm()" class="btn-warm rounded-2xl px-6 py-3 font-black text-sm mt-4">
+                <i class="fa-solid fa-check mr-1"></i> Save Content Changes
+              </button>
+            </div>
+
+            <!-- Testimonials/Love notes Editor -->
+            <div class="rounded-[22px] warm-border p-5" style="background:var(--card)">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="font-serif font-black text-lg">Love Notes / Testimonials</h4>
+                <button onclick="addTestimonial()" class="btn-ghost rounded-full px-4 py-2 text-xs font-black">+ Add Note</button>
+              </div>
+              <div id="testiAdmin" class="space-y-2"></div>
+            </div>
+          </div>
+
+          <!-- TAB: SETTINGS & BACKUP -->
+          <div data-pane="settings" class="hidden space-y-4">
+            <div class="rounded-[22px] warm-border p-5" style="background:var(--card)">
+              <h4 class="font-serif font-black text-lg mb-2">Access Security</h4>
+              <p class="text-sm opacity-60 mb-3">Change the 4-digit ember code that opens this Studio.</p>
+              <div class="flex gap-2">
+                <input id="fPass" maxlength="4" class="input-warm !w-32 text-center font-black tracking-[.3em]">
+                <button onclick="savePass()" class="btn-warm rounded-2xl px-5 font-black text-sm">Update Code</button>
+              </div>
+            </div>
+
+            <div class="rounded-[22px] warm-border p-5" style="background:var(--card)">
+              <h4 class="font-serif font-black text-lg mb-3">Backup & Data Reset</h4>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="exportData()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold">Export JSON</button>
+                <button onclick="document.getElementById('importFile').click()" class="btn-ghost rounded-full px-4 py-2 text-sm font-bold">Import JSON</button>
+                <button onclick="seedDemo()" class="rounded-full px-4 py-2 text-sm font-bold bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 transition">Reset Everything to UF Defaults</button>
+              </div>
+              <p class="text-[12px] opacity-50 mt-3 font-semibold">Storage: localStorage • Key: uf_portfolio_v2 • Fully persistent in your browser.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDEA EDITOR MODAL -->
+  <div id="editorModal" class="hidden fixed inset-0 z-[85] modal-bg p-3 md:p-6 overflow-y-auto">
+    <div class="max-w-2xl mx-auto rounded-[26px] p-6 md:p-8 my-4 shadow-2xl" style="background:var(--card);border:1px solid var(--line)">
+      <div class="flex items-center justify-between mb-5">
+        <h3 id="edTitle" class="font-serif font-black text-2xl">New Idea Spark</h3>
+        <button onclick="closeEditor()" class="w-10 h-10 rounded-full btn-ghost grid place-items-center">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div class="sm:col-span-2">
+          <label class="lbl">Title</label>
+          <input id="eTitle" class="input-warm" placeholder="e.g. Solstice Journal" />
+        </div>
+        <div>
+          <label class="lbl">Category</label>
+          <input id="eCat" list="catList" class="input-warm" placeholder="Wellness, Food, Travel..." />
+          <datalist id="catList"></datalist>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="lbl">Status</label>
+            <select id="eStatus" class="input-warm">
+              <option>Launched</option>
+              <option>Prototype</option>
+              <option>Concept</option>
+              <option>Archived</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl">Year</label>
+            <input id="eYear" type="number" class="input-warm" value="2026" />
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="lbl">Cover Image URL</label>
+          <input id="eImg" class="input-warm" placeholder="https://..." />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="lbl">Quick Presets</label>
+          <div id="imgPresets" class="grid grid-cols-4 gap-2"></div>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="lbl">Excerpt (One cozy sentence)</label>
+          <input id="eExcerpt" class="input-warm" placeholder="A journaling app that feels like hot tea..." />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="lbl">Full Story & Concept</label>
+          <textarea id="eDesc" rows="4" class="input-warm resize-none" placeholder="Detailed backstory, how it was created, and why it exists..."></textarea>
+        </div>
+        <div>
+          <label class="lbl">Tags (comma-separated)</label>
+          <input id="eTags" class="input-warm" placeholder="cozy, ritual, morning" />
+        </div>
+        <div>
+          <label class="lbl">Crafted With (comma-separated)</label>
+          <input id="eStack" class="input-warm" placeholder="React, Figma, SwiftUI" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="lbl">What It Taught You</label>
+          <input id="eLearn" class="input-warm" placeholder="Key learning or creative insight..." />
+        </div>
+        <div class="flex items-center gap-4 pt-4 sm:col-span-2">
+          <label class="flex items-center gap-2 font-bold text-sm cursor-pointer">
+            <input id="eFeat" type="checkbox" class="w-5 h-5 accent-[#FF6B35]"> Featured Star
+          </label>
+          <label class="flex items-center gap-2 font-bold text-sm cursor-pointer">
+            <input id="eSpot" type="checkbox" class="w-5 h-5 accent-[#FF6B35]"> Season Spotlight
+          </label>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-6">
+        <button onclick="saveEditor()" class="btn-warm flex-1 rounded-2xl py-3.5 font-black">
+          <i class="fa-solid fa-floppy-disk mr-1"></i> Save Idea
+        </button>
+        <button onclick="closeEditor()" class="btn-ghost rounded-2xl px-6 font-bold">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toasts" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 items-center w-[92%] max-w-md pointer-events-none"></div>
+
+  <!-- JAVASCRIPT ARCHIVE & LOGIC -->
+  <script>
+    /* ============ ASSETS & DATA ============ */
+    const IMG = {
+      journal: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop",
+      food: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop",
+      fashion: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop",
+      wellness: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=800&auto=format&fit=crop",
+      camera: "https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop",
+      travel: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop",
+      game: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+      kitchen: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=800&auto=format&fit=crop",
+      design: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"
+    };
+
+    const PRESETS = [IMG.journal, IMG.food, IMG.fashion, IMG.wellness, IMG.camera, IMG.travel, IMG.game, IMG.kitchen];
+
+    function uid(s) {
+      return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    const DEFAULTS = {
+      profile: {
+        name: "UF",
+        role: "Ideas Archive & Creative Sanctuary",
+        bio: "UF is a curated archive of digital experiments, humane tools, and tactile concepts created over the years. I believe technology feels best when it is built like a warm, sunlit kitchen — forgiving, thoughtful, and scented with quiet joy. Here you will find concepts ranging from cozy journaling apps to sustainable marketplaces and atmospheric indie games.",
+        avatar: IMG.avatar,
+        location: "Studio • 45°F & Drizzly",
+        email: "hello@uf-archive.studio"
+      },
+      hero: {
+        eyebrow: "UF Living Ideas Archive • Curated Sparks",
+        titleA: "Past ideas,",
+        titleB: "warmly kept.",
+        subtitle: "Welcome to UF — a cozy sanctuary for prototypes, napkin sketches, digital side-quests, and creative sparks. Wander the shelf, steal inspiration, or leave a little warmth.",
+        cta1: "Explore 9 ideas",
+        cta2: "Read the story",
+        proof: "Treasured by 9,400+ curious souls"
+      },
+      appearance: {
+        c1: "#FF6B35",
+        c2: "#FFB627",
+        c3: "#FF7E79",
+        bg: "#FFF8F0",
+        radius: 24,
+        grain: true,
+        blobs: true,
+        glow: true,
+        dusk: false
+      },
+      sections: {
+        marquee: true,
+        spotlight: true,
+        journey: true,
+        about: true,
+        notes: true
+      },
+      settings: {
+        passcode: "1234"
+      },
+      testimonials: [
+        {
+          text: "UF doesn't just archive screens, it archives feelings. Ember Notes got me journaling for the first time in a decade.",
+          author: "Priya N. — Early user, Ember Notes"
+        },
+        {
+          text: "Sunbaked made me cry into my soup in the best way. Every recipe felt like a handwritten letter from someone's grandmother.",
+          author: "Marcus T. — Food writer, The Simmer"
+        },
+        {
+          text: "Browsing UF is like stepping inside an illuminated library on a rainy night. Inspiring and forgiving.",
+          author: "Alina K. — Creative Director, Wanderwarm"
+        }
+      ],
+      ideas: [
+        {
+          id: "ember-notes",
+          title: "Ember Notes",
+          category: "Wellness",
+          status: "Launched",
+          year: 2022,
+          likes: 2841,
+          views: 15230,
+          image: IMG.journal,
+          excerpt: "A journaling app that feels like a hug, not homework.",
+          description: "Ember Notes began as a paper notebook carried through a long, grey winter. It evolved into a digital haven with comforting prompts, crackling-fire ambience, streak forgiveness, and letters from your future self. Featured as App of the Day.",
+          tags: ["cozy", "ritual", "mental-health", "morning"],
+          stack: ["SwiftUI", "Firebase", "RevenueCat"],
+          learnings: "Forgiveness is a feature. Removing streak-anxiety tripled 30-day user retention.",
+          featured: true,
+          spotlight: false
+        },
+        {
+          id: "sunbaked",
+          title: "Sunbaked",
+          category: "Food",
+          status: "Launched",
+          year: 2023,
+          likes: 3120,
+          views: 18450,
+          image: IMG.food,
+          excerpt: "Recipes with the human memory still attached.",
+          description: "A recipe-storytelling platform where every dish ships with voice notes, stained recipe cards, kitchen playlists, and the story of who taught it. Over 12,000 family recipes archived in the first year.",
+          tags: ["food", "storytelling", "community"],
+          stack: ["Next.js", "Supabase", "Cloudinary"],
+          learnings: "People don't save recipes — they save people. Audio notes drove 5x more saves.",
+          featured: true,
+          spotlight: true
+        },
+        {
+          id: "loop-loom",
+          title: "Loop & Loom",
+          category: "Commerce",
+          status: "Prototype",
+          year: 2021,
+          likes: 1180,
+          views: 7420,
+          image: IMG.fashion,
+          excerpt: "A thrift marketplace that mends before it sells.",
+          description: "Sustainable fashion marketplace where every second-hand piece arrives mended, with a visible repair story and the sewer's initials embroidered inside. 68% of buyers said the repair story was the reason they purchased.",
+          tags: ["sustainable", "fashion", "circular"],
+          stack: ["Figma", "Shopify", "Airtable"],
+          learnings: "Visible mending turned a defect into the item's most valuable characteristic.",
+          featured: false,
+          spotlight: false
+        },
+        {
+          id: "hearth-chat",
+          title: "Hearth Chat",
+          category: "Wellness",
+          status: "Concept",
+          year: 2024,
+          likes: 1930,
+          views: 6210,
+          image: IMG.wellness,
+          excerpt: "A slow AI companion for 2am restless thoughts.",
+          description: "A mental-wellness companion that replies with the warmth of a wise friend, never like a sterile chatbot. Features slow pacing, breathing exercises, and the option to 'leave it by the fire' until dawn.",
+          tags: ["ai", "slow-tech", "care"],
+          stack: ["Figma", "Whisper", "Claude API"],
+          learnings: "Slowness can be safety. Testers praised the intentional 8-second contemplative delay.",
+          featured: true,
+          spotlight: false
+        },
+        {
+          id: "golden-hour",
+          title: "Golden Hour Presets",
+          category: "Creative",
+          status: "Launched",
+          year: 2020,
+          likes: 2450,
+          views: 22100,
+          image: IMG.camera,
+          excerpt: "38 film presets soaked in rich honey light.",
+          description: "A pack of color grading profiles reverse-engineered from late summer walks. Sold 9k packs, fully funding an entire year of side-project exploration. Included film grain recipes and a tiny pocket zine.",
+          tags: ["photography", "presets", "film"],
+          stack: ["Lightroom", "Gumroad", "InDesign"],
+          learnings: "Sell the feeling, ship the file. The accompanying zine made the product unforgettable.",
+          featured: false,
+          spotlight: false
+        },
+        {
+          id: "wanderwarm",
+          title: "Wanderwarm",
+          category: "Travel",
+          status: "Prototype",
+          year: 2023,
+          likes: 1640,
+          views: 8930,
+          image: IMG.travel,
+          excerpt: "Slow-travel companion for lingering longer.",
+          description: "An anti-itinerary travel guide: pick a feeling (misty, bustling, sleepy), receive one neighborhood, three benches, and a bakery to befriend. Includes offline hand-drawn maps and a 'get lost safely' mode.",
+          tags: ["travel", "slow", "maps"],
+          stack: ["React Native", "Mapbox"],
+          learnings: "Travelers don't want more pins on maps — they want permission to do less.",
+          featured: false,
+          spotlight: false
+        },
+        {
+          id: "paper-lantern",
+          title: "Paper Lantern",
+          category: "Game",
+          status: "Concept",
+          year: 2025,
+          likes: 2210,
+          views: 5400,
+          image: IMG.game,
+          excerpt: "A cozy puzzle adventure lit entirely by glowing lanterns.",
+          description: "Indie game concept: you are a tiny spirit keeper lighting paper lanterns across a flooded twilight market. Light carries memories between stalls; puzzles are solved by sharing glow with travelers.",
+          tags: ["game", "cozy", "puzzle"],
+          stack: ["Unity", "FMOD", "Aseprite"],
+          learnings: "Generosity as a core gameplay mechanic tested beautifully — players gifted light unprompted.",
+          featured: true,
+          spotlight: false
+        },
+        {
+          id: "kindred-kitchen",
+          title: "Kindred Kitchen",
+          category: "Social",
+          status: "Archived",
+          year: 2019,
+          likes: 890,
+          views: 4100,
+          image: IMG.kitchen,
+          excerpt: "Cook the same meal with a friendly stranger, miles apart.",
+          description: "An early launch pairing people across timezones to cook the same dish over video. 400 meals were shared. Sunset with a farewell cookbook PDF that is still downloaded today.",
+          tags: ["community", "food", "video"],
+          stack: ["Ruby on Rails", "Twilio"],
+          learnings: "Sunset projects gracefully. The farewell artifact gained more affection than the live app.",
+          featured: false,
+          spotlight: false
+        },
+        {
+          id: "solstice-studio",
+          title: "Solstice Studio",
+          category: "Design",
+          status: "Prototype",
+          year: 2026,
+          likes: 1755,
+          views: 3980,
+          image: IMG.design,
+          excerpt: "A warm design system with seasons built into tokens.",
+          description: "A design token framework where color ramps and elevation shift automatically with the natural seasons — amber autumns, blush springs, cozy twilights. Powers the UF portfolio.",
+          tags: ["design-system", "tokens", "open-source"],
+          stack: ["Figma", "Tailwind", "CSS Variables"],
+          learnings: "Design systems feel alive when they gently recognize time passing.",
+          featured: false,
+          spotlight: false
+        }
+      ],
+      comments: {
+        "sunbaked": [
+          { n: "Rowan", t: "My grandmother's dumpling recipe is now preserved here. Thank you for this.", d: "Mar 2026" }
+        ],
+        "ember-notes": [
+          { n: "Leo", t: "Day 310 of journaling. Ember Notes changed my relationship with writing.", d: "Feb 2026" }
+        ]
+      },
+      journey: [
+        { y: "2019", t: "First Flame", d: "Launched Kindred Kitchen from a tiny studio. Burned the soup, kept the spark alive." },
+        { y: "2021", t: "Learning to Linger", d: "Loop & Loom and sustainable experiments showed how physical craft enriches software." },
+        { y: "2023", t: "Sunbaked Summer", d: "12,000 family recipes archived. Proved that digital products can hold grief and joy." },
+        { y: "2026", t: "The UF Archive", d: "Gathered every spark into this living portfolio — with a secret studio to keep creating." }
+      ]
+    };
+
+    const LS = "uf_portfolio_v2", LSLIKE = "uf_liked_v2";
+    let state, liked = new Set(), isAdmin = false, curFilter = "All", curView = "grid", curId = null, quoteIdx = 0, editingId = null;
+
+    try {
+      liked = new Set(JSON.parse(localStorage.getItem(LSLIKE) || "[]"));
+    } catch(e) {}
+
+    /* ============ LOAD & SAVE ============ */
+    function load() {
+      try {
+        const raw = localStorage.getItem(LS);
+        if (raw) {
+          const s = JSON.parse(raw);
+          const d = JSON.parse(JSON.stringify(DEFAULTS));
+          return Object.assign(d, s, {
+            profile: Object.assign(d.profile, s.profile || {}),
+            hero: Object.assign(d.hero, s.hero || {}),
+            appearance: Object.assign(d.appearance, s.appearance || {}),
+            sections: Object.assign(d.sections, s.sections || {}),
+            settings: Object.assign(d.settings, s.settings || {})
+          });
+        }
+      } catch(e) {}
+      return JSON.parse(JSON.stringify(DEFAULTS));
+    }
+
+    function save() {
+      localStorage.setItem(LS, JSON.stringify(state));
+      localStorage.setItem(LSLIKE, JSON.stringify([...liked]));
+    }
+
+    state = load();
+
+    function totals() {
+      return {
+        likes: state.ideas.reduce((a, b) => a + (b.likes || 0), 0),
+        views: state.ideas.reduce((a, b) => a + (b.views || 0), 0),
+        comments: Object.values(state.comments || {}).reduce((a, b) => a + b.length, 0)
+      };
+    }
+
+    /* ============ TOASTS ============ */
+    function toast(msg, icon = "fa-check") {
+      const t = document.createElement("div");
+      t.className = "toastIn glass warm-border rounded-2xl px-5 py-3.5 shadow-card flex items-center gap-3 text-sm font-bold w-full pointer-events-auto";
+      t.style.background = "color-mix(in srgb, var(--card) 94%, transparent)";
+      t.innerHTML = `<span class="w-8 h-8 rounded-full grid place-items-center text-white shrink-0" style="background:linear-gradient(135deg,var(--c1),var(--c3))"><i class="fa-solid ${icon} text-xs"></i></span><span>${msg}</span>`;
+      document.getElementById("toasts").appendChild(t);
+      setTimeout(() => {
+        t.style.transition = ".4s";
+        t.style.opacity = "0";
+        t.style.transform = "translateY(10px)";
+        setTimeout(() => t.remove(), 400);
+      }, 3000);
+    }
+
+    /* ============ THEME & APPEARANCE ============ */
+    function applyAppearance() {
+      const a = state.appearance, r = document.documentElement.style;
+      r.setProperty("--c1", a.c1);
+      r.setProperty("--c2", a.c2);
+      r.setProperty("--c3", a.c3);
+      r.setProperty("--radius", a.radius + "px");
+
+      document.body.classList.toggle("dusk", !!a.dusk);
+      document.querySelector(".grain").style.display = a.grain ? "block" : "none";
+      
+      ["blob1", "blob2", "blob3"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = a.blobs ? "block" : "none";
+      });
+
+      document.getElementById("cursorGlow").style.display = a.glow ? "block" : "none";
+
+      if (!a.dusk) {
+        document.body.style.background = `radial-gradient(1200px 600px at 10% -5%, ${a.c2}22, transparent), radial-gradient(900px 500px at 95% 10%, ${a.c3}26, transparent), ${a.bg}`;
+      } else {
+        document.body.style.background = "";
+      }
+
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      set("col1", a.c1);
+      set("col2", a.c2);
+      set("col3", a.c3);
+      const bgEl = document.getElementById("colBg");
+      if (bgEl && !a.dusk) bgEl.value = a.bg;
+
+      const m = { col1v: a.c1, col2v: a.c2, col3v: a.c3, colBgv: a.bg, radiusV: a.radius + "px" };
+      Object.entries(m).forEach(([k, v]) => { const e = document.getElementById(k); if (e) e.textContent = v; });
+
+      const rr = document.getElementById("radiusR");
+      if (rr) rr.value = a.radius;
+
+      const tg = (id, on) => { const e = document.getElementById(id); if (e) e.classList.toggle("on", !!on); };
+      tg("tGrain", a.grain);
+      tg("tBlobs", a.blobs);
+      tg("tDusk", a.dusk);
+      tg("tGlow", a.glow);
+
+      document.getElementById("duskIcon").className = a.dusk ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    }
+
+    function toggleDusk() {
+      state.appearance.dusk = !state.appearance.dusk;
+      save();
+      applyAppearance();
+      toast(state.appearance.dusk ? "Dusk mode — warm embers & midnight tea" : "Morning mode — golden sunshine & cream", "fa-moon");
+    }
+
+    function toggleOption(key) {
+      state.appearance[key] = !state.appearance[key];
+      save();
+      applyAppearance();
+    }
+
+    function setRadius(val) {
+      state.appearance.radius = parseInt(val);
+      save();
+      applyAppearance();
+    }
+
+    function updateColors() {
+      state.appearance.c1 = document.getElementById("col1").value;
+      state.appearance.c2 = document.getElementById("col2").value;
+      state.appearance.c3 = document.getElementById("col3").value;
+      state.appearance.bg = document.getElementById("colBg").value;
+      save();
+      applyAppearance();
+    }
+
+    function applyPreset(idx) {
+      const presets = [
+        { c1: "#FF6B35", c2: "#FFB627", c3: "#FF7E79", bg: "#FFF8F0" },
+        { c1: "#F59E0B", c2: "#F97316", c3: "#EF4444", bg: "#FFFBF0" },
+        { c1: "#FB7185", c2: "#FDA4AF", c3: "#FED7AA", bg: "#FFF7F7" },
+        { c1: "#7C3AED", c2: "#EC4899", c3: "#FB923C", bg: "#FDF4FF" }
+      ];
+      if (presets[idx]) {
+        Object.assign(state.appearance, presets[idx]);
+        save();
+        applyAppearance();
+        toast("Palette updated warmly", "fa-palette");
+      }
+    }
+
+    /* ============ CONTENT & SYNC ============ */
+    function applyContent() {
+      const p = state.profile, h = state.hero;
+      document.getElementById("navName").textContent = p.name;
+      document.getElementById("footName").textContent = p.name;
+      document.getElementById("heroEyebrow").textContent = h.eyebrow;
+      document.getElementById("heroTitleA").textContent = h.titleA;
+      document.getElementById("heroTitleB").textContent = h.titleB;
+      document.getElementById("heroSubtitle").textContent = h.subtitle;
+      document.getElementById("heroCta1").innerHTML = h.cta1 + ' <i class="fa-solid fa-arrow-down ml-2 text-xs"></i>';
+      document.getElementById("heroCta2").innerHTML = '<i class="fa-solid fa-book-open mr-2 text-[#FF6B35]"></i> ' + h.cta2;
+      document.getElementById("heroSocialProof").textContent = h.proof;
+
+      document.getElementById("aboutName").textContent = "About " + p.name;
+      document.getElementById("aboutRole").textContent = p.role;
+      document.getElementById("aboutBio").textContent = p.bio;
+      document.getElementById("aboutLoc").textContent = p.location;
+      document.getElementById("aboutImg").src = p.avatar;
+
+      document.getElementById("emailLabel").textContent = p.email;
+      document.getElementById("emailBtn").href = "mailto:" + p.email;
+      document.title = p.name + " — Ideas Portfolio & Archive";
+
+      const soc = [
+        ["fa-instagram", "Instagram"],
+        ["fa-x-twitter", "Twitter/X"],
+        ["fa-dribbble", "Dribbble"],
+        ["fa-github", "GitHub"]
+      ].map(([ic]) => `<a href="#" onclick="return false" class="w-10 h-10 rounded-full btn-ghost grid place-items-center hover:scale-110 transition"><i class="fa-brands ${ic}"></i></a>`).join("");
+      document.getElementById("socialRow").innerHTML = soc;
+      document.getElementById("contactSocials").innerHTML = soc;
+
+      // Section visibility
+      const s = state.sections;
+      document.getElementById("marqueeSec").style.display = s.marquee ? "block" : "none";
+      document.getElementById("spotlight").style.display = s.spotlight ? "block" : "none";
+      document.getElementById("journey").style.display = s.journey ? "block" : "none";
+      document.getElementById("about").style.display = s.about ? "block" : "none";
+      document.getElementById("notes").style.display = s.notes ? "block" : "none";
+
+      document.getElementById("passHint").textContent = state.settings.passcode;
+      renderSecToggles();
+    }
+
+    function renderSecToggles() {
+      const el = document.getElementById("secToggles");
+      if (!el) return;
+      const keys = [
+        ["marquee", "Marquee Ribbon"],
+        ["spotlight", "Spotlight Card"],
+        ["journey", "Journey Timeline"],
+        ["about", "About Section"],
+        ["notes", "Love Notes / Quotes"]
+      ];
+      el.innerHTML = keys.map(([k, label]) => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl warm-border" style="background:var(--bg2)">
+          <span class="text-xs font-bold">${label}</span>
+          <div class="toggle ${state.sections[k] ? 'on' : ''}" onclick="toggleSec('${k}')"></div>
+        </div>
+      `).join("");
+    }
+
+    function toggleSec(k) {
+      state.sections[k] = !state.sections[k];
+      save();
+      applyContent();
+    }
+
+    function statusColor(st) {
+      return st === "Launched" ? "background:#DCFCE7;color:#15803D"
+           : st === "Prototype" ? "background:#FEF3C7;color:#B45309"
+           : st === "Concept"   ? "background:#E0E7FF;color:#4338CA"
+           : "background:#F1F5F9;color:#64748B";
+    }
+
+    function cats() {
+      return ["All", ...new Set(state.ideas.map(i => i.category))];
+    }
+
+    function filtered() {
+      let list = [...state.ideas];
+      const q = document.getElementById("searchInput").value.toLowerCase().trim();
+      const st = document.getElementById("statusSel").value;
+      const sort = document.getElementById("sortSel").value;
+
+      if (curFilter !== "All") list = list.filter(i => i.category === curFilter);
+      if (st !== "all") list = list.filter(i => i.status === st);
+      if (q) list = list.filter(i => (i.title + " " + i.excerpt + " " + i.description + " " + (i.tags || []).join(" ") + " " + i.category).toLowerCase().includes(q));
+
+      if (sort === "new") list.sort((a, b) => b.year - a.year);
+      if (sort === "old") list.sort((a, b) => a.year - b.year);
+      if (sort === "loved") list.sort((a, b) => b.likes - a.likes);
+      if (sort === "az") list.sort((a, b) => a.title.localeCompare(b.title));
+
+      return list;
+    }
+
+    function fmt(n) {
+      return n >= 1000 ? (n / 1000).toFixed(1).replace(".0", "") + "k" : n;
+    }
+
+    function cardHTML(it, feat) {
+      const isL = liked.has(it.id);
+      return `
+        <article class="card-idea reveal revealed ${feat ? 'ring-2' : ''}" ${feat ? 'style="border-color:var(--c2);box-shadow:0 0 0 4px rgba(255,182,39,.18)"' : ''} data-id="${it.id}">
+          <div class="img-wrap h-52 overflow-hidden relative cursor-pointer" onclick="openIdea('${it.id}')">
+            <img src="${it.image}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='${IMG.design}'" alt="${it.title}">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(40,18,6,.45),transparent 55%)"></div>
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="chip bg-white/95 text-[#7A3B1E]">${it.category}</span>
+            </div>
+            <div class="absolute top-3 right-3 chip backdrop-blur" style="${statusColor(it.status)}">${it.status}</div>
+            <div class="absolute bottom-3 left-3 chip bg-black/55 text-white backdrop-blur">
+              <i class="fa-solid fa-calendar mr-1"></i>${it.year}
+            </div>
+            ${it.featured ? '<div class="absolute bottom-3 right-3 w-8 h-8 rounded-full grid place-items-center text-white text-xs" style="background:linear-gradient(135deg,var(--c1),var(--c2))"><i class="fa-solid fa-star"></i></div>' : ''}
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif font-black text-[1.35rem] leading-tight cursor-pointer hover:text-[#FF6B35] transition" onclick="openIdea('${it.id}')">${it.title}</h3>
+            <p class="text-[.9rem] opacity-60 mt-1.5 leading-relaxed line-clamp-2">${it.excerpt}</p>
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              ${(it.tags || []).slice(0, 3).map(t => `<span class="text-[11px] font-bold px-2.5 py-1 rounded-full" style="background:var(--bg2);color:var(--muted)">#${t}</span>`).join("")}
+            </div>
+            <div class="flex items-center gap-4 mt-4 pt-4" style="border-top:1px dashed var(--line)">
+              <button onclick="toggleLike('${it.id}',event)" class="flex items-center gap-1.5 font-black text-sm ${isL ? 'text-rose-500' : 'opacity-60 hover:text-rose-500'} transition relative">
+                <i class="fa-${isL ? 'solid' : 'regular'} fa-heart"></i>
+                <span id="like-${it.id}">${fmt(it.likes)}</span>
+              </button>
+              <span class="text-[13px] font-bold opacity-50"><i class="fa-solid fa-eye mr-1"></i>${fmt(it.views)}</span>
+              <span class="flex-1"></span>
+              <button onclick="openIdea('${it.id}')" class="text-[13px] font-black text-[#FF6B35] hover:gap-3 gap-1.5 flex items-center transition-all">
+                Open <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderIdeas() {
+      const list = filtered();
+      document.getElementById("resultCount").textContent = `${list.length} idea spark${list.length !== 1 ? "s" : ""} in UF archive`;
+      
+      document.getElementById("pillRow").innerHTML = cats().map(c => `
+        <button onclick="setFilter('${c}')" class="pill ${curFilter === c ? 'active' : ''}">${c}</button>
+      `).join("");
+
+      ["ideasGrid", "ideasTimeline", "ideasMood"].forEach(id => document.getElementById(id).classList.add("hidden"));
+      
+      document.querySelectorAll(".viewBtn").forEach(b => {
+        const on = b.dataset.view === curView;
+        b.className = "viewBtn px-4 py-2 rounded-full font-bold transition " + (on ? "bg-[#3D2B23] text-white" : "opacity-60");
+      });
+
+      document.getElementById("emptyState").classList.toggle("hidden", list.length > 0);
+
+      if (curView === "grid") {
+        const g = document.getElementById("ideasGrid");
+        g.classList.remove("hidden");
+        g.innerHTML = list.map(i => cardHTML(i, i.featured)).join("");
+      } else if (curView === "timeline") {
+        const t = document.getElementById("ideasTimeline");
+        t.classList.remove("hidden");
+        t.innerHTML = '<div class="timeline-line"></div>' + list.map(i => `
+          <div class="relative pb-6">
+            <div class="absolute -left-12 top-1 w-10 h-10 rounded-2xl grid place-items-center text-white shadow-warm" style="background:linear-gradient(135deg,var(--c1),var(--c3))">
+              <i class="fa-solid fa-fire text-sm"></i>
+            </div>
+            <div class="card-idea p-5 cursor-pointer" onclick="openIdea('${i.id}')">
+              <div class="flex items-center gap-2 text-[11px] font-black tracking-widest uppercase opacity-60">
+                <span>${i.year}</span> • <span>${i.category}</span> • <span style="color:var(--c1)">${i.status}</span>
+              </div>
+              <div class="font-serif font-black text-xl mt-1">${i.title}</div>
+              <p class="text-sm opacity-60 mt-1">${i.excerpt}</p>
+              <div class="flex gap-3 mt-2 text-[13px] font-bold opacity-60">
+                <span><i class="fa-solid fa-heart text-rose-400 mr-1"></i>${fmt(i.likes)}</span>
+                <span><i class="fa-solid fa-eye mr-1"></i>${fmt(i.views)}</span>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      } else {
+        const m = document.getElementById("ideasMood");
+        m.classList.remove("hidden");
+        m.innerHTML = list.map((i, ix) => `
+          <div class="card-idea cursor-pointer ${ix % 3 === 0 ? '!rounded-[28px]' : ''}" onclick="openIdea('${i.id}')">
+            <div class="img-wrap overflow-hidden" style="height:${200 + (ix % 3) * 70}px">
+              <img src="${i.image}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='${IMG.design}'" alt="${i.title}">
+            </div>
+            <div class="p-4">
+              <div class="font-serif font-black">${i.title}</div>
+              <div class="text-xs font-bold opacity-50 mt-0.5">${i.year} • ${i.category}</div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Live Stats Counter
+      const t = totals();
+      animateNum("statIdeas", state.ideas.length);
+      animateNum("statLikes", t.likes);
+      document.getElementById("floatLikes").textContent = fmt(t.likes + 8400);
+
+      renderSpot();
+      renderJourney();
+      renderAdminIdeas();
+      renderDash();
+    }
+
+    document.querySelectorAll(".viewBtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        curView = btn.dataset.view;
+        renderIdeas();
+      });
+    });
+
+    function setFilter(c) {
+      curFilter = c;
+      renderIdeas();
+    }
+
+    function clearFilters() {
+      curFilter = "All";
+      document.getElementById("searchInput").value = "";
+      document.getElementById("statusSel").value = "all";
+      renderIdeas();
+    }
+
+    function animateNum(id, to) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const from = parseInt(el.dataset.v || "0");
+      el.dataset.v = to;
+      const st = performance.now();
+      function f(n) {
+        const p = Math.min(1, (n - st) / 800);
+        el.textContent = fmt(Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(f);
+      }
+      requestAnimationFrame(f);
+    }
+
+    function renderSpot() {
+      const s = state.ideas.find(i => i.spotlight) || state.ideas.slice().sort((a, b) => b.likes - a.likes)[0];
+      if (!s) return;
+      document.getElementById("spotImg").src = s.image;
+      document.getElementById("spotTitle").textContent = s.title;
+      document.getElementById("spotKicker").textContent = `baked with love in ${s.year} • ${s.category}`;
+      document.getElementById("spotDesc").textContent = s.excerpt + " " + s.description.split(".")[0] + ".";
+      document.getElementById("spotTags").innerHTML = (s.tags || []).map(t => `<span class="text-[12px] font-bold px-3 py-1.5 rounded-full bg-white/15 backdrop-blur border border-white/20">#${t}</span>`).join("");
+      document.getElementById("spotLikes").textContent = fmt(s.likes);
+      document.getElementById("spotViews").textContent = fmt(s.views);
+      document.getElementById("spotBtn").onclick = () => openIdea(s.id);
+      document.getElementById("collageMain").src = (state.ideas.find(i => i.featured) || s).image;
+    }
+
+    function renderJourney() {
+      const j = state.journey || [];
+      document.getElementById("journeyList").innerHTML = j.map((m, i) => {
+        const left = i % 2 === 0;
+        return `
+          <div class="relative md:grid md:grid-cols-2 md:gap-14 items-center">
+            <div class="${left ? 'md:text-right' : 'md:col-start-2'}">
+              <div class="card-idea p-6 inline-block w-full max-w-md shadow-card">
+                <div class="font-hand text-2xl text-[#FF6B35]">${m.y}</div>
+                <div class="font-serif font-black text-xl mt-0.5">${m.t}</div>
+                <p class="text-sm opacity-70 mt-1.5 leading-relaxed">${m.d}</p>
+              </div>
+            </div>
+            <div class="absolute -left-10 md:left-1/2 md:-translate-x-1/2 top-6 w-9 h-9 rounded-full text-white font-black text-xs grid place-items-center shadow-warm" style="background:linear-gradient(135deg,var(--c1),var(--c2))">
+              <i class="fa-solid fa-seedling text-xs"></i>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderMarquee() {
+      const words = ["Prototypes", "Warmth First", "Curated Sketches", "Ember Notes", "Humane Software", "Sunbaked Stories", "Tactile Interfaces", "2019-2026 Archive", "Living Studio"];
+      const str = words.map(w => `<span class="inline-flex items-center gap-4 mx-5"><span>${w}</span><i class="fa-solid fa-sparkle text-amber-300 text-xs"></i></span>`).join("");
+      document.getElementById("marqueeTrack").innerHTML = str + str + str + str;
+    }
+
+    /* ============ LIKES & HEARTS ============ */
+    function toggleLike(id, e) {
+      if (e) e.stopPropagation();
+      const it = state.ideas.find(x => x.id === id);
+      if (!it) return;
+
+      if (liked.has(id)) {
+        liked.delete(id);
+        it.likes = Math.max(0, (it.likes || 1) - 1);
+        toast("Removed spark from favorites", "fa-heart-crack");
+      } else {
+        liked.add(id);
+        it.likes = (it.likes || 0) + 1;
+        spawnHeart(e);
+        toast("Spark favorited with warmth!", "fa-heart");
+      }
+      save();
+      renderIdeas();
+      if (curId === id) syncModalStats(it);
+    }
+
+    function spawnHeart(e) {
+      const h = document.createElement("div");
+      h.className = "heart-pop";
+      h.textContent = ["🔥", "🧡", "✨", "☕", "💛"][Math.floor(Math.random() * 5)];
+      const x = e ? e.clientX : window.innerWidth / 2;
+      const y = e ? e.clientY : window.innerHeight / 2;
+      h.style.left = x + (Math.random() * 20 - 10) + "px";
+      h.style.top = y + "px";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1200);
+    }
+
+    /* ============ DETAIL MODAL ============ */
+    function openIdea(id) {
+      const it = state.ideas.find(x => x.id === id);
+      if (!it) return;
+      curId = id;
+      it.views = (it.views || 0) + 1;
+      save();
+
+      document.getElementById("mImg").src = it.image;
+      document.getElementById("mTitle").textContent = it.title;
+      document.getElementById("mCat").textContent = it.category;
+      document.getElementById("mStatus").textContent = it.status;
+      document.getElementById("mStatus").style = statusColor(it.status);
+      document.getElementById("mYear").textContent = it.year;
+      document.getElementById("mExcerpt").textContent = it.excerpt;
+      document.getElementById("mDesc").textContent = it.description;
+      document.getElementById("mLearn").textContent = it.learnings || "Built with attention to detail and care for the user's tranquility.";
+
+      document.getElementById("mStack").innerHTML = (it.stack || ["Figma", "HTML/CSS"]).map(s => `<span class="chip bg-white warm-border">${s}</span>`).join("");
+      document.getElementById("mTags").innerHTML = (it.tags || []).map(t => `<span class="chip bg-white warm-border">#${t}</span>`).join("");
+
+      syncModalStats(it);
+      renderComments(id);
+
+      // Related
+      const rel = state.ideas.filter(x => x.id !== id && (x.category === it.category || x.tags.some(t => it.tags.includes(t)))).slice(0, 2);
+      document.getElementById("relatedRow").innerHTML = (rel.length ? rel : state.ideas.filter(x => x.id !== id).slice(0, 2)).map(r => `
+        <div class="card-idea p-3 flex items-center gap-3 cursor-pointer" onclick="openIdea('${r.id}')">
+          <img src="${r.image}" class="w-12 h-12 rounded-xl object-cover" onerror="this.src='${IMG.design}'" alt="${r.title}">
+          <div>
+            <div class="font-serif font-bold text-sm leading-tight">${r.title}</div>
+            <div class="text-[11px] opacity-60 font-semibold">${r.category} • ${r.year}</div>
+          </div>
+        </div>
+      `).join("");
+
+      // Nav handlers
+      const idx = state.ideas.findIndex(x => x.id === id);
+      document.getElementById("mPrev").onclick = () => openIdea(state.ideas[(idx - 1 + state.ideas.length) % state.ideas.length].id);
+      document.getElementById("mNext").onclick = () => openIdea(state.ideas[(idx + 1) % state.ideas.length].id);
+      document.getElementById("mLikeBtn").onclick = (e) => toggleLike(it.id, e);
+
+      document.getElementById("ideaModal").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function syncModalStats(it) {
+      const isL = liked.has(it.id);
+      document.getElementById("mLikes").textContent = `${fmt(it.likes)} ${isL ? "Loved" : "Warm Like"}`;
+      document.getElementById("mViews").textContent = fmt(it.views);
+    }
+
+    function closeIdea() {
+      document.getElementById("ideaModal").classList.add("hidden");
+      document.body.style.overflow = "";
+      curId = null;
+    }
+
+    function randomIdea() {
+      if (!state.ideas.length) return;
+      const it = state.ideas[Math.floor(Math.random() * state.ideas.length)];
+      openIdea(it.id);
+      toast(`Sparks selected: ${it.title}`, "fa-dice");
+    }
+
+    function copyIdeaLink() {
+      navigator.clipboard.writeText(window.location.origin + window.location.pathname + "#idea=" + curId);
+      toast("Keepsake link copied to clipboard!", "fa-link");
+    }
+
+    function shareIdea() {
+      if (navigator.share) {
+        const it = state.ideas.find(x => x.id === curId);
+        navigator.share({ title: it.title, text: it.excerpt, url: window.location.href });
+      } else {
+        copyIdeaLink();
+      }
+    }
+
+    /* ============ COMMENTS ============ */
+    function renderComments(id) {
+      const list = (state.comments && state.comments[id]) || [];
+      document.getElementById("cCount").textContent = `(${list.length})`;
+      if (!list.length) {
+        document.getElementById("commentList").innerHTML = `<div class="text-xs italic opacity-50 py-2">No notes left yet. Be the first to leave a warm whisper.</div>`;
+        return;
+      }
+      document.getElementById("commentList").innerHTML = list.map(c => `
+        <div class="rounded-2xl p-3.5 warm-border text-sm" style="background:var(--bg2)">
+          <div class="flex items-center justify-between text-xs font-bold opacity-60 mb-1">
+            <span>${c.n || "Friendly Traveler"}</span>
+            <span>${c.d}</span>
+          </div>
+          <p class="leading-relaxed opacity-90">${c.t}</p>
+        </div>
+      `).join("");
+    }
+
+    function addComment(e) {
+      e.preventDefault();
+      if (!curId) return;
+      const n = document.getElementById("cmName").value.trim() || "Kind Soul";
+      const t = document.getElementById("cmText").value.trim();
+      if (!t) return;
+      if (!state.comments) state.comments = {};
+      if (!state.comments[curId]) state.comments[curId] = [];
+      const d = new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      state.comments[curId].unshift({ n, t, d });
+      save();
+      document.getElementById("cmText").value = "";
+      renderComments(curId);
+      toast("Your warm note was placed in the archive", "fa-heart");
+    }
+
+    /* ============ LOVE NOTES QUOTES ============ */
+    function renderQuote() {
+      const arr = state.testimonials || [];
+      if (!arr.length) return;
+      const item = arr[quoteIdx % arr.length];
+      const box = document.getElementById("quoteBox");
+      box.style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("quoteText").textContent = `“${item.text}”`;
+        document.getElementById("quoteAuth").textContent = `— ${item.author}`;
+        box.style.opacity = "1";
+      }, 150);
+
+      document.getElementById("quoteDots").innerHTML = arr.map((_, i) => `
+        <button onclick="setQuote(${i})" class="w-2.5 h-2.5 rounded-full transition-all ${i === quoteIdx ? 'w-8 bg-[#FF6B35]' : 'bg-stone-300'}" aria-label="Go to slide ${i+1}"></button>
+      `).join("");
+    }
+
+    function stepQuote(d) {
+      const arr = state.testimonials || [];
+      quoteIdx = (quoteIdx + d + arr.length) % arr.length;
+      renderQuote();
+    }
+
+    function setQuote(i) {
+      quoteIdx = i;
+      renderQuote();
+    }
+
+    /* ============ CONTACT & COPY ============ */
+    function sendMsg(e) {
+      e.preventDefault();
+      const n = document.getElementById("cName").value;
+      toast(`Thank you ${n}! Your note reached UF warm & safe.`, "fa-envelope-circle-check");
+      e.target.reset();
+    }
+
+    function copyEmail() {
+      navigator.clipboard.writeText(state.profile.email);
+      toast("Email copied to clipboard!", "fa-copy");
+    }
+
+    /* ============ SECRET ACCESS & STUDIO UNLOCK ============ */
+    let clickCount = 0, clickTimer = null;
+    document.getElementById("logoTrigger").addEventListener("click", () => {
+      clickCount++;
+      clearTimeout(clickTimer);
+      if (clickCount >= 3) {
+        clickCount = 0;
+        handleSecretClick();
+      } else {
+        clickTimer = setTimeout(() => { clickCount = 0; }, 600);
+      }
+    });
+
+    function handleSecretClick() {
+      if (isAdmin) {
+        openAdmin();
+      } else {
+        openPass();
+      }
+    }
+
+    // Passcode modal input flow
+    const boxes = document.querySelectorAll(".pass-box");
+    boxes.forEach((box, i) => {
+      box.addEventListener("input", (e) => {
+        if (e.target.value.length === 1 && i < boxes.length - 1) {
+          boxes[i + 1].focus();
+        }
+        if (getEnteredPass().length === 4) checkPass();
+      });
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !box.value && i > 0) {
+          boxes[i - 1].focus();
+        }
+      });
+    });
+
+    function getEnteredPass() {
+      return Array.from(boxes).map(b => b.value).join("");
+    }
+
+    function openPass() {
+      boxes.forEach(b => b.value = "");
+      document.getElementById("passErr").textContent = "";
+      document.getElementById("passModal").classList.remove("hidden");
+      setTimeout(() => boxes[0].focus(), 100);
+    }
+
+    function closePass() {
+      document.getElementById("passModal").classList.add("hidden");
+    }
+
+    function checkPass() {
+      const code = getEnteredPass();
+      if (code === (state.settings.passcode || "1234")) {
+        isAdmin = true;
+        closePass();
+        document.getElementById("adminBanner").classList.remove("hidden");
+        document.getElementById("adminFab").classList.remove("hidden");
+        toast("UF Studio Unlocked! Full control granted.", "fa-wand-magic-sparkles");
+        openAdmin();
+      } else {
+        document.getElementById("passErr").textContent = "Incorrect ember code. Try 1234.";
+        boxes.forEach(b => { b.value = ""; b.classList.add("border-rose-500"); });
+        setTimeout(() => {
+          boxes.forEach(b => b.classList.remove("border-rose-500"));
+          boxes[0].focus();
+        }, 600);
+      }
+    }
+
+    function lockStudio() {
+      isAdmin = false;
+      closeAdmin();
+      document.getElementById("adminBanner").classList.add("hidden");
+      document.getElementById("adminFab").classList.add("hidden");
+      toast("Studio locked and sealed.", "fa-lock");
+    }
+
+    /* ============ STUDIO PANEL LOGIC ============ */
+    function openAdmin() {
+      if (!isAdmin) { openPass(); return; }
+      document.getElementById("adminPanel").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      populateContentForm();
+      renderAdminIdeas();
+      renderDash();
+      renderTestiAdmin();
+    }
+
+    function closeAdmin() {
+      document.getElementById("adminPanel").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function previewSite() {
+      closeAdmin();
+      toast("Viewing live site. Use floating button to return.", "fa-eye");
+    }
+
+    // Tabs inside admin
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.dataset.tab;
+        document.querySelectorAll("#adminBody > div").forEach(p => p.classList.add("hidden"));
+        const target = document.querySelector(`[data-pane="${tab}"]`);
+        if (target) target.classList.remove("hidden");
+        if (tab === "dash") renderDash();
+      });
+    });
+
+    /* ============ DASHBOARD & CHARTS ============ */
+    function renderDash() {
+      const t = totals();
+      document.getElementById("dIdeas").textContent = state.ideas.length;
+      document.getElementById("dLikes").textContent = fmt(t.likes);
+      document.getElementById("dViews").textContent = fmt(t.views);
+      document.getElementById("dComments").textContent = t.comments;
+      document.getElementById("admCount").textContent = state.ideas.length;
+
+      // Draw custom canvas bar chart
+      const cvs = document.getElementById("dashChart");
+      if (!cvs) return;
+      const ctx = cvs.getContext("2d");
+      const w = cvs.width = cvs.parentElement.clientWidth - 40;
+      const h = cvs.height = 140;
+      ctx.clearRect(0, 0, w, h);
+
+      const items = state.ideas.slice(0, 8);
+      if (!items.length) return;
+      const maxL = Math.max(...items.map(i => i.likes || 1));
+      const colW = (w - (items.length - 1) * 12) / items.length;
+
+      items.forEach((it, i) => {
+        const barH = ((it.likes || 10) / maxL) * (h - 35);
+        const x = i * (colW + 12);
+        const y = h - barH - 20;
+
+        const grad = ctx.createLinearGradient(0, y, 0, h);
+        grad.addColorStop(0, "#FF6B35");
+        grad.addColorStop(1, "#FFB627");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(x, y, colW, barH, 8);
+        ctx.fill();
+
+        ctx.fillStyle = "#8A6F62";
+        ctx.font = "bold 10px Outfit";
+        ctx.textAlign = "center";
+        ctx.fillText(it.title.slice(0, 7) + "..", x + colW / 2, h - 5);
+      });
+    }
+
+    /* ============ ADMIN IDEAS CRUD ============ */
+    function renderAdminIdeas() {
+      const q = (document.getElementById("admSearch")?.value || "").toLowerCase();
+      let list = state.ideas;
+      if (q) list = list.filter(i => (i.title + " " + i.category).toLowerCase().includes(q));
+
+      document.getElementById("adminIdeaList").innerHTML = list.map(i => `
+        <div class="rounded-2xl p-3.5 warm-border flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="background:var(--card)">
+          <div class="flex items-center gap-3">
+            <img src="${i.image}" class="w-12 h-12 rounded-xl object-cover shrink-0" onerror="this.src='${IMG.design}'" alt="${i.title}">
+            <div>
+              <div class="font-serif font-black text-base flex items-center gap-2">
+                ${i.title}
+                ${i.spotlight ? '<span class="text-xs text-amber-500"><i class="fa-solid fa-crown" title="Season Spotlight"></i></span>' : ''}
+                ${i.featured ? '<span class="text-xs text-orange-500"><i class="fa-solid fa-star" title="Featured"></i></span>' : ''}
+              </div>
+              <div class="text-xs font-bold opacity-60">${i.category} • ${i.year} • <span style="${statusColor(i.status)}" class="px-2 py-0.5 rounded-full">${i.status}</span> • ${fmt(i.likes)} likes</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+            <button onclick="openEditor('${i.id}')" class="btn-ghost rounded-xl px-3 py-1.5 text-xs font-bold" title="Edit idea">
+              <i class="fa-solid fa-pen mr-1"></i> Edit
+            </button>
+            <button onclick="toggleSpotlight('${i.id}')" class="btn-ghost rounded-xl px-3 py-1.5 text-xs font-bold ${i.spotlight ? 'bg-amber-100 text-amber-800' : ''}" title="Make Season Spotlight">
+              <i class="fa-solid fa-crown"></i>
+            </button>
+            <button onclick="deleteIdea('${i.id}')" class="rounded-xl px-3 py-1.5 text-xs font-bold bg-rose-50 text-rose-600 hover:bg-rose-100 transition" title="Delete idea">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function toggleSpotlight(id) {
+      state.ideas.forEach(i => { i.spotlight = (i.id === id); });
+      save();
+      renderIdeas();
+      toast("Spotlight showcase updated", "fa-crown");
+    }
+
+    function deleteIdea(id) {
+      if (!confirm("Are you sure you want to remove this idea spark from the archive?")) return;
+      state.ideas = state.ideas.filter(i => i.id !== id);
+      save();
+      renderIdeas();
+      toast("Idea removed from shelf", "fa-trash");
+    }
+
+    /* ============ IDEA EDITOR MODAL ============ */
+    function openEditor(id) {
+      editingId = id;
+      const it = id ? state.ideas.find(x => x.id === id) : null;
+      document.getElementById("edTitle").textContent = it ? "Edit: " + it.title : "New Idea Spark";
+      
+      document.getElementById("eTitle").value = it ? it.title : "";
+      document.getElementById("eCat").value = it ? it.category : "Wellness";
+      document.getElementById("eStatus").value = it ? it.status : "Launched";
+      document.getElementById("eYear").value = it ? it.year : new Date().getFullYear();
+      document.getElementById("eImg").value = it ? it.image : IMG.journal;
+      document.getElementById("eExcerpt").value = it ? it.excerpt : "";
+      document.getElementById("eDesc").value = it ? it.description : "";
+      document.getElementById("eTags").value = it ? (it.tags || []).join(", ") : "cozy, digital, craft";
+      document.getElementById("eStack").value = it ? (it.stack || []).join(", ") : "Figma, React, Tailwind";
+      document.getElementById("eLearn").value = it ? (it.learnings || "") : "";
+      document.getElementById("eFeat").checked = it ? !!it.featured : false;
+      document.getElementById("eSpot").checked = it ? !!it.spotlight : false;
+
+      // Presets
+      document.getElementById("imgPresets").innerHTML = PRESETS.map(url => `
+        <img src="${url}" onclick="document.getElementById('eImg').value='${url}'" class="w-full h-12 object-cover rounded-xl cursor-pointer hover:opacity-80 transition" alt="preset">
+      `).join("");
+
+      // Datalist categories
+      document.getElementById("catList").innerHTML = cats().filter(c => c !== "All").map(c => `<option value="${c}">`).join("");
+
+      document.getElementById("editorModal").classList.remove("hidden");
+    }
+
+    function closeEditor() {
+      document.getElementById("editorModal").classList.add("hidden");
+      editingId = null;
+    }
+
+    function saveEditor() {
+      const title = document.getElementById("eTitle").value.trim();
+      if (!title) { alert("Please enter a title for the idea."); return; }
+      
+      const payload = {
+        title,
+        category: document.getElementById("eCat").value.trim() || "General",
+        status: document.getElementById("eStatus").value,
+        year: parseInt(document.getElementById("eYear").value) || new Date().getFullYear(),
+        image: document.getElementById("eImg").value.trim() || IMG.design,
+        excerpt: document.getElementById("eExcerpt").value.trim() || "A quietly kept digital experiment.",
+        description: document.getElementById("eDesc").value.trim() || title + " — created with love and purpose.",
+        tags: document.getElementById("eTags").value.split(",").map(s => s.trim().replace(/^#/, "")).filter(Boolean),
+        stack: document.getElementById("eStack").value.split(",").map(s => s.trim()).filter(Boolean),
+        learnings: document.getElementById("eLearn").value.trim(),
+        featured: document.getElementById("eFeat").checked,
+        spotlight: document.getElementById("eSpot").checked
+      };
+
+      if (payload.spotlight) {
+        state.ideas.forEach(i => i.spotlight = false);
+      }
+
+      if (editingId) {
+        const idx = state.ideas.findIndex(x => x.id === editingId);
+        if (idx !== -1) {
+          state.ideas[idx] = Object.assign(state.ideas[idx], payload);
+        }
+      } else {
+        payload.id = uid(title) + "-" + Math.floor(Math.random() * 1000);
+        payload.likes = 1;
+        payload.views = 12;
+        state.ideas.unshift(payload);
+      }
+
+      save();
+      closeEditor();
+      renderIdeas();
+      toast(editingId ? "Idea changes saved warmly!" : "New idea spark created!", "fa-floppy-disk");
+    }
+
+    /* ============ CONTENT TAB LOGIC ============ */
+    function populateContentForm() {
+      const p = state.profile, h = state.hero;
+      document.getElementById("fName").value = p.name;
+      document.getElementById("fRole").value = p.role;
+      document.getElementById("fLoc").value = p.location;
+      document.getElementById("fEmail").value = p.email;
+      document.getElementById("fAvatar").value = p.avatar;
+      document.getElementById("fBio").value = p.bio;
+
+      document.getElementById("hEyebrow").value = h.eyebrow;
+      document.getElementById("hProof").value = h.proof;
+      document.getElementById("hTA").value = h.titleA;
+      document.getElementById("hTB").value = h.titleB;
+      document.getElementById("hSub").value = h.subtitle;
+      document.getElementById("hC1").value = h.cta1;
+      document.getElementById("hC2").value = h.cta2;
+      document.getElementById("fPass").value = state.settings.passcode;
+    }
+
+    function saveContentForm() {
+      state.profile.name = document.getElementById("fName").value.trim() || "UF";
+      state.profile.role = document.getElementById("fRole").value.trim();
+      state.profile.location = document.getElementById("fLoc").value.trim();
+      state.profile.email = document.getElementById("fEmail").value.trim();
+      state.profile.avatar = document.getElementById("fAvatar").value.trim();
+      state.profile.bio = document.getElementById("fBio").value.trim();
+
+      state.hero.eyebrow = document.getElementById("hEyebrow").value.trim();
+      state.hero.proof = document.getElementById("hProof").value.trim();
+      state.hero.titleA = document.getElementById("hTA").value.trim();
+      state.hero.titleB = document.getElementById("hTB").value.trim();
+      state.hero.subtitle = document.getElementById("hSub").value.trim();
+      state.hero.cta1 = document.getElementById("hC1").value.trim();
+      state.hero.cta2 = document.getElementById("hC2").value.trim();
+
+      save();
+      applyContent();
+      toast("Portfolio narrative & titles updated!", "fa-check");
+    }
+
+    function savePass() {
+      const p = document.getElementById("fPass").value.trim();
+      if (p.length < 4) { alert("Please enter a 4-digit code."); return; }
+      state.settings.passcode = p;
+      save();
+      applyContent();
+      toast("Studio passcode updated to: " + p, "fa-key");
+    }
+
+    /* ============ TESTIMONIALS ADMIN ============ */
+    function renderTestiAdmin() {
+      const arr = state.testimonials || [];
+      document.getElementById("testiAdmin").innerHTML = arr.map((t, i) => `
+        <div class="rounded-xl p-3 warm-border flex items-center justify-between gap-3 text-xs" style="background:var(--bg2)">
+          <div class="flex-1 truncate">
+            <span class="font-bold">“${t.text.slice(0, 45)}…”</span>
+            <span class="opacity-60 block mt-0.5">— ${t.author}</span>
+          </div>
+          <button onclick="delTesti(${i})" class="text-rose-500 hover:text-rose-700 p-2"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join("");
+    }
+
+    function addTestimonial() {
+      const text = prompt("Enter the note / testimonial text:");
+      if (!text) return;
+      const author = prompt("Enter the author & attribution:");
+      if (!author) return;
+      if (!state.testimonials) state.testimonials = [];
+      state.testimonials.push({ text, author });
+      save();
+      renderTestiAdmin();
+      renderQuote();
+      toast("Love note added!", "fa-heart");
+    }
+
+    function delTesti(i) {
+      state.testimonials.splice(i, 1);
+      save();
+      renderTestiAdmin();
+      renderQuote();
+      toast("Love note removed", "fa-trash");
+    }
+
+    /* ============ BACKUP & RESET ============ */
+    function exportData() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `uf-portfolio-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      toast("Archive JSON downloaded", "fa-download");
+    }
+
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const r = new FileReader();
+      r.onload = (ev) => {
+        try {
+          const d = JSON.parse(ev.target.result);
+          if (d.ideas && d.profile) {
+            state = d;
+            save();
+            applyAppearance();
+            applyContent();
+            renderIdeas();
+            renderQuote();
+            toast("Archive imported successfully!", "fa-upload");
+          } else {
+            alert("Invalid UF Archive JSON structure.");
+          }
+        } catch(err) {
+          alert("Error reading JSON file.");
+        }
+      };
+      r.readAsText(file);
+    }
+
+    function seedDemo() {
+      if (!confirm("Reset all settings and ideas back to original UF cozy defaults?")) return;
+      state = JSON.parse(JSON.stringify(DEFAULTS));
+      save();
+      applyAppearance();
+      applyContent();
+      renderIdeas();
+      renderQuote();
+      toast("Archive restored to default sparks", "fa-rotate");
+    }
+
+    /* ============ CANVAS EMBERS BACKGROUND ============ */
+    (function initEmbers() {
+      const cvs = document.getElementById("embers");
+      const ctx = cvs.getContext("2d");
+      let w, h, pts = [];
+
+      function resize() {
+        w = cvs.width = window.innerWidth;
+        h = cvs.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      for (let i = 0; i < 28; i++) {
+        pts.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 2.5 + .8,
+          dx: (Math.random() - .5) * .4,
+          dy: -(Math.random() * .5 + .2),
+          a: Math.random() * .6 + .2,
+          hue: Math.random() > .5 ? 24 : 38
+        });
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, w, h);
+        pts.forEach(p => {
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${p.hue}, 90%, 65%, ${p.a})`;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = `hsla(${p.hue}, 90%, 60%, .8)`;
+          ctx.fill();
+        });
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    /* ============ CURSOR GLOW ============ */
+    const glow = document.getElementById("cursorGlow");
+    window.addEventListener("mousemove", (e) => {
+      glow.style.left = e.clientX + "px";
+      glow.style.top = e.clientY + "px";
+    });
+
+    /* ============ KEYBOARD SHORTCUTS ============ */
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeIdea();
+        closeEditor();
+        closePass();
+        closeAdmin();
+      }
+      // Ctrl + Shift + U for Secret Studio shortcut
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "u") {
+        e.preventDefault();
+        handleSecretClick();
+      }
+    });
+
+    /* ============ SCROLL REVEALS ============ */
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("revealed");
+        }
+      });
+    }, { threshold: 0.1 });
+
+    function observeElements() {
+      document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+    }
+
+    /* ============ INITIALIZATION ============ */
+    applyAppearance();
+    applyContent();
+    renderMarquee();
+    renderIdeas();
+    renderQuote();
+    observeElements();
+
+    // GSAP Hero Entry Animation
+    if (window.gsap) {
+      gsap.from(".hero-el", {
+        y: 35,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1,
+        ease: "power3.out"
+      });
+    }
+
+    // Check deep link anchor
+    if (window.location.hash && window.location.hash.startsWith("#idea=")) {
+      const id = window.location.hash.replace("#idea=", "");
+      setTimeout(() => openIdea(id), 500);
+    }
+  </script>
+</body>
+</html>
